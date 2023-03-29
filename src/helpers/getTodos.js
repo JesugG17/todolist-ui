@@ -9,6 +9,5 @@ export const getTodos = async( token ) => {
     });
 
     const { todos } = await resp.json();
-    console.log( todos );
     return todos;
 }

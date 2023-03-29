@@ -25,9 +25,7 @@ export const TodoApp = () => {
     }
 
     const handleDeleteTodo = async({ todoId }) => {
-       
-        const { todo: todoDeleted } = await deleteTodo(todoId, token);
-        console.log(todoDeleted);
+        const todoDeleted = await deleteTodo(todoId, token);
         const newTodos = todos.filter(todo => todo.todoId !== todoDeleted.todoId );
         setTodos(newTodos);
     }

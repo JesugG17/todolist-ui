@@ -5,10 +5,10 @@ export const postTodo = async( description, token ) => {
     const resp = await fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'x-token': token
+            "Content-Type": 'application/json',
+            "x-token": token
         },
-        body: JSON.stringify(description)
+        body: JSON.stringify({description})
     });
 
     const { todo } = await resp.json();

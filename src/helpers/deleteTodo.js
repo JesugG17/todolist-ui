@@ -11,6 +11,5 @@ export const deleteTodo = async( todoid, token ) => {
     });
 
     const { todo } = await resp.json();
-    
     return todo;
 }
