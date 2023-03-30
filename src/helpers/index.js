@@ -1,9 +1,7 @@
-import { postTodo } from './postTodo';
-import { deleteTodo } from './deleteTodo';
-import { getTodos } from './getTodos';
+import { getTodos, postTodo, deleteTodo } from './actionsTodo';
 
 export {
+    getTodos,
     postTodo,
-    deleteTodo,
-    getTodos
+    deleteTodo    
 }

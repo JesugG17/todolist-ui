@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { deleteTodo, getTodos, postTodo } from "../helpers";
 import { TodoList } from "./TodoList";
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjgwMDYzNjgyLCJleHAiOjE2ODAwNzgwODJ9.gYK2D3yVFq94PkLIuo8O-4LzUq7iyC2HILbAAOYShjc';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjgwMTQ1ODEwLCJleHAiOjE2ODAxNjAyMTB9.7-gIM4G2_e7OQEWxPcnLjEiScRwks3ZT-1DjDEitaNc';
 export const TodoApp = () => {
     
     const [formState, setFormState] = useState('');
@@ -51,7 +51,7 @@ export const TodoApp = () => {
     
         <div>
             {
-                todos.map( (todo, index) => {
+                todos.map((todo, index) => {
                     return (
                         <TodoList
                             key={index}

@@ -1,21 +1,18 @@
+* {
+  box-sizing: border-box;
+  padding: 5px;
+}
 
+.list-container {
+  border-bottom: 1px solid black;
+  border-color: rgb(147, 147, 147);
+  box-shadow: 14px 4px 25px -15px rgba(0, 0, 0, 0.63);
+}
 
-  * {
-    box-sizing: border-box;
-    padding: 5px;
-  }
+button {
+  margin-right: 10px;
+}
 
-
-  .list-container {
-    border-bottom: 1px solid black;
-    border-color: rgb(147, 147, 147);
-    box-shadow: 14px 4px 25px -15px rgba(0,0,0,0.63);
-  }
-
-  button {
-    margin-right: 10px;
-  }
-
-  .button-container {
-    display: flex;
-  }
+.button-container {
+  display: flex;
+}
