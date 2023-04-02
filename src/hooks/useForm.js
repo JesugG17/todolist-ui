@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 export const useForm = ( initialForm ) => {
 
@@ -6,7 +6,6 @@ export const useForm = ( initialForm ) => {
 
     const onInputChange = ({ target }) => {
         const { name, value } = target;
-        
         setFormState({
             ...formState,
             [name]: value
