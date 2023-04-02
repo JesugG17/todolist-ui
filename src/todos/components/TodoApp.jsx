@@ -1,22 +1,24 @@
-import { useEffect } from'react';
+import { useContext, useEffect } from'react';
 import { TodoList } from './TodoList';
 import { useTodos } from '../hooks/useTodos';
 import { TodoAdd } from './TodoAdd';
+import { UserContext, UserProvider } from '../context/UserProvider';
 
 export const TodoApp = () => {
+
+    const token = useContext(UserContext);
 
     const { todos,
             addTodosFirstTime,
             handleAddTodo,
-            handleDeleteTodo } = useTodos();
+            handleDeleteTodo } = useTodos(token);
 
     useEffect(() => {
         addTodosFirstTime();
     },[]);
 
   return (
-    <>  
-        <h1>TodosApp</h1>
+    <UserProvider>  
         <div className="row">
 
             <div className="col-5">
@@ -38,6 +40,6 @@ export const TodoApp = () => {
             </div>
         </div>
     
-    </>
+    </UserProvider>
   )
 }

@@ -1,7 +1,11 @@
 import React from 'react'
 import { useForm } from '../../hooks/useForm'
+import { useNavigate } from 'react-router';
+
 
 export const LoginPage = () => {
+
+  const navigate = useNavigate();
 
   const { correo, password, onResetForm, onInputChange } = useForm({
     correo: '',
@@ -11,12 +15,6 @@ export const LoginPage = () => {
   const handleLogIn = async(event) => {
     event.preventDefault();
     const url = 'http://localhost:8080/v2/api/auth/login';
-    const user = {
-      correo,
-      password
-    }
-
-    console.log(user);
     const resp = await fetch(url, {
       method: 'POST',
       headers: {
@@ -25,9 +23,17 @@ export const LoginPage = () => {
       body: JSON.stringify({ correo, password })
     });
 
-    const { token } = resp.json();
+    const { errors, token } = await resp.json();
+    if (errors) {
+      return;
+    }
+
+    localStorage.setItem('token', token);
 
     onResetForm();
+    navigate('/todos', {
+      replace: true
+    })
   }
 
 
