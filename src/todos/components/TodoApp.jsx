@@ -18,7 +18,7 @@ export const TodoApp = () => {
     },[]);
 
   return (
-    <UserProvider>  
+    <>  
         <div className="row">
 
             <div className="col-5">
@@ -40,6 +40,6 @@ export const TodoApp = () => {
             </div>
         </div>
     
-    </UserProvider>
+    </>
   )
 }
