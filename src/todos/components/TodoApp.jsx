@@ -2,16 +2,16 @@ import { useContext, useEffect } from'react';
 import { TodoList } from './TodoList';
 import { useTodos } from '../hooks/useTodos';
 import { TodoAdd } from './TodoAdd';
-import { UserContext, UserProvider } from '../context/UserProvider';
+import { AuthContext } from '../../auth';
 
 export const TodoApp = () => {
 
-    const token = useContext(UserContext);
+    // const token = useContext(AuthContext);
 
     const { todos,
             addTodosFirstTime,
             handleAddTodo,
-            handleDeleteTodo } = useTodos(token);
+            handleDeleteTodo } = useTodos('some');
 
     useEffect(() => {
         addTodosFirstTime();
