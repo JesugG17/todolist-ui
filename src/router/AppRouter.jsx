@@ -1,15 +1,26 @@
 import { Route, Routes } from 'react-router';
-import { LoginPage } from '../auth/pages/LoginPage';
-import { TodoMain } from '../todos/components/TodoMain';
-import { AuthProvider } from '../auth';
+import { AuthProvider, AuthRoutes } from '../auth';
+import { TodosRoutes } from '../todos';
+import { PublicRoutes } from './PublicRoutes';
+import { PrivateRoutes } from './PrivateRoutes';
 
 export const AppRouter = () => {
   return (
     <AuthProvider>
       
         <Routes>
-          <Route path='/' element={ <LoginPage /> }/>
-          <Route path='/todos' element={ <TodoMain /> } />
+          {/* RUTAS PUBLICAS */}
+          <Route path='/auth/*' element={
+            <PublicRoutes>
+              <AuthRoutes />
+            </PublicRoutes>
+          }/>
+          {/* RUTAS PRIVADAS */}
+          <Route path='/todos/*' element={
+            <PrivateRoutes>
+              <TodosRoutes />
+            </PrivateRoutes>
+          } />
         </Routes>
 
     </AuthProvider>
