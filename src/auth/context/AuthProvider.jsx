@@ -15,7 +15,7 @@ const init = () => {
 
 export const AuthProvider = ({ children }) => {
 
-    const [authState, dispatch] = useReducer(authReducer, {logged: false}, init);
+    const [authState, dispatch] = useReducer(authReducer, {}, init);
     const axiosInstance = axios.create({
       baseURL: 'http://localhost:8080/v2/api/',
       timeout: 5000

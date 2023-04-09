@@ -1,15 +1,13 @@
-import { useReducer, useRef } from "react";
-import { todoReducer } from "../components/todoReducer";
-import { getTodos, postTodo, deleteTodo } from "../helpers";
+import { useReducer } from 'react';
+import { todoReducer } from '../components/todoReducer';
+import { getTodos, postTodo, deleteTodo } from '../helpers';
 
-export const useTodos = (token) => {
-
-    const tokenRef = useRef(token);
+export const useTodos = () => {
     
     const [todos, dispatch] = useReducer(todoReducer, []); 
 
     const addTodosFirstTime = async() => {
-        const allTodos = await getTodos(tokenRef.current);
+        const allTodos = await getTodos();
         const action = {
             type: 'init',
             payload: allTodos
@@ -19,7 +17,7 @@ export const useTodos = (token) => {
     }
 
     const handleAddTodo = async( todo ) => {
-        const newTodo = await postTodo(todo, tokenRef.current);
+        const newTodo = await postTodo(todo);
         const action = {
             type: 'add-todo',
             payload: newTodo
@@ -28,7 +26,7 @@ export const useTodos = (token) => {
     }
 
     const handleDeleteTodo = async( id ) => {
-        await deleteTodo(id, tokenRef.current);
+        await deleteTodo(id);
         const action = {
             type: 'delete-todo',
             payload: id

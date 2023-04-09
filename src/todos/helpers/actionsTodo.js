@@ -1,44 +1,33 @@
+import axios from 'axios';
 
-export const deleteTodo = async( todoid, token ) => {
-    const deleteUrl = `http://localhost:8080/v2/api/todos/${todoid}`;
-    const resp = await fetch(deleteUrl, {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": 'application/json',
-            "x-token": token
-        },
-        
-    });
+const { token } = JSON.parse(localStorage.getItem('user')) || { token: 'no-token' };
 
-    const { todo } = await resp.json();
-    return todo;
+const instance = axios.create({
+    baseURL: 'http://localhost:8080/v2/api/',
+    timeout: 5000,
+    headers: {
+        'Content-Type': 'application/json',
+        'x-token': token
+    }
+});
+
+export const deleteTodo = async( todoid ) => {
+    await instance.delete(`todos/${todoid}`);
 }
 
-export const postTodo = async( description, token ) => {
-    const url = 'http://localhost:8080/v2/api/todos';
-    const resp = await fetch(url, {
-        method: 'POST',
-        headers: {
-            "Content-Type": 'application/json',
-            "x-token": token
-        },
-        body: JSON.stringify({description})
+export const postTodo = async( description ) => {
+
+    const { data } = await instance.post('todos', {
+        description
     });
 
-    const { todo } = await resp.json();
+    const { todo } = data;
 
     return todo;
 }
 
-export const getTodos = async( token ) => {
-    const url = 'http://localhost:8080/v2/api/todos';
-    const resp = await fetch(url, {
-        headers: {
-            'Content-Type': 'application/json',
-            'x-token': token
-        }
-    });
-
-    const { todos } = await resp.json();
+export const getTodos = async() => {
+    const { data } = await instance.get('todos');
+    const { todos } = data;
     return todos;
 }

@@ -7,7 +7,6 @@ import { AuthContext } from '../../auth';
 export const TodoApp = () => {
 
     const { user } = useContext(AuthContext);
-    console.log(user);
     const { todos,
             addTodosFirstTime,
             handleAddTodo,
@@ -19,9 +18,9 @@ export const TodoApp = () => {
 
   return (
     <>  
-        <div className="row">
+        <div className='row'>
 
-            <div className="col-5">
+            <div className='col-5'>
                 <TodoAdd handleAddTodo={ handleAddTodo }/>
             </div>
 
