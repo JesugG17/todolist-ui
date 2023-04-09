@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import { AuthProvider, AuthRoutes } from '../auth';
 import { TodosRoutes } from '../todos';
 import { PublicRoutes } from './PublicRoutes';
@@ -21,7 +21,9 @@ export const AppRouter = () => {
               <TodosRoutes />
             </PrivateRoutes>
           } />
+          <Route path='/*' element={<Navigate to='/auth/login'/>}/>
         </Routes>
+
 
     </AuthProvider>
   )

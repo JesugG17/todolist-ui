@@ -7,6 +7,7 @@ import { AuthContext } from '../../auth';
 export const TodoApp = () => {
 
     const { user } = useContext(AuthContext);
+    console.log(user);
     const { todos,
             addTodosFirstTime,
             handleAddTodo,
@@ -14,7 +15,7 @@ export const TodoApp = () => {
 
     useEffect(() => {
         addTodosFirstTime();
-    },[]);
+    },[user.token]);
 
   return (
     <>  

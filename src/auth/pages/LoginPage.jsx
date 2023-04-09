@@ -1,7 +1,7 @@
-import React from 'react'
-import { useForm } from '../../hooks/useForm'
 import { useNavigate } from 'react-router';
 import { useContext } from 'react';
+
+import { useForm } from '../../hooks/useForm'
 import { AuthContext } from '../context';
 
 
@@ -21,23 +21,22 @@ export const LoginPage = () => {
     onResetForm();
     navigate('/todos', {
       replace: true
-    })
+    });
   }
 
-
   return (
-    <>
-        <h1 className='text-center'>LoginPage</h1>
-        <hr className='mb-5'/>
+    <div className='auth_container'>
 
-        <div className='login-container'>
-          <div className='d-flex flex-column align-items-center'>
+        <div className='card_auth'>
+          <div className='inputs_container'>
+            <h3 className='text-center border-bottom mb-2'>Login</h3>
             <form onSubmit={handleLogIn}>
                 <h4>Email:</h4>
                 <input
                   className='form-control' 
                   type="email"
                   name='correo' 
+                  placeholder='correo@gmail.com'
                   value={ correo }
                   onChange={onInputChange} 
                 />
@@ -61,6 +60,6 @@ export const LoginPage = () => {
           </div>
         </div>
 
-    </>
+    </div>
   )
 }
