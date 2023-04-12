@@ -23,10 +23,9 @@ export const AuthProvider = ({ children }) => {
 
     const login = async(correo, password) => {
 
-        const user = { correo, password };
 
         const { data, status } = await axiosInstance.post('auth/login',{
-          ...user
+          correo, password
         });
         
         if (status !== 200) {
@@ -43,8 +42,21 @@ export const AuthProvider = ({ children }) => {
         dispatch(action);
     }
 
+    const register = async(nombre, correo, password) => {
+      
+      const { status } = await axiosInstance.post('auth/register', {
+        nombre, correo, password
+      });
+
+      if (status !== 200) {
+        return false;
+      }
+
+      return true;
+    }
+
   return (
-    <AuthContext.Provider value={{ ...authState, login }}>
+    <AuthContext.Provider value={{ ...authState, login, register }}>
         { children }
     </AuthContext.Provider>
   )

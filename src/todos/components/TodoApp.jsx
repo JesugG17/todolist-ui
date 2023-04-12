@@ -1,8 +1,7 @@
-import { useContext, useEffect } from'react';
+import { useEffect } from 'react';
 import { TodoList } from './TodoList';
 import { useTodos } from '../hooks/useTodos';
 import { TodoAdd } from './TodoAdd';
-import { AuthContext } from '../../auth';
 
 export const TodoApp = () => {
 

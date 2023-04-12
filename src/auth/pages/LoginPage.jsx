@@ -3,21 +3,22 @@ import { useContext } from 'react';
 
 import { useForm } from '../../hooks/useForm'
 import { AuthContext } from '../context';
+import { Link } from 'react-router-dom';
 
 
 export const LoginPage = () => {
 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
-  const { correo, password, onResetForm, onInputChange } = useForm({
-    correo: '',
+  const { email, password, onResetForm, onInputChange, formState } = useForm({
+    email: '',
     password: ''
   });
 
-  const handleLogIn = async(event) => {
+  const onSubmit = async(event) => {
     event.preventDefault();
     
-    await login(correo, password);
+    await login(email, password);
     onResetForm();
     navigate('/todos', {
       replace: true
@@ -30,14 +31,14 @@ export const LoginPage = () => {
         <div className='card_auth'>
           <div className='inputs_container'>
             <h3 className='text-center border-bottom mb-2'>Login</h3>
-            <form onSubmit={handleLogIn}>
+            <form onSubmit={onSubmit}>
                 <h4>Email:</h4>
                 <input
                   className='form-control' 
                   type="email"
-                  name='correo' 
-                  placeholder='correo@gmail.com'
-                  value={ correo }
+                  name='email' 
+                  placeholder='email@gmail.com'
+                  value={ email }
                   onChange={onInputChange} 
                 />
                 <h4>Password:</h4>
@@ -45,19 +46,27 @@ export const LoginPage = () => {
                   className='form-control input'
                   type="password"
                   name='password'
+                  placeholder='your password'
                   value={ password } 
                   onChange={onInputChange}
                 /> 
-                <button
-                  type='submit'
-                  className='btn btn-primary mt-2'
-                  onClick={handleLogIn}
-                >
-                  Loguearse
-                </button>
             </form>
-              
           </div>
+          <div className='buttons-container'>
+            <button
+                type='submit'
+                className='btn btn-primary mt-3 form-button'
+                onClick={onSubmit}
+              >
+                Loguearse
+            </button>
+
+            <Link to='/auth/register'>
+              Crear una cuenta
+            </Link>
+
+          </div>
+
         </div>
 
     </div>
