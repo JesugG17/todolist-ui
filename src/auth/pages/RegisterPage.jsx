@@ -28,58 +28,61 @@ export const RegisterPage = () => {
   }
 
   return (
-    <div className='auth_container'>
+    <div className='login-container'>
 
-        <div className='card_auth_register'>
-          <div className='inputs_container'>
-            <h3 className='text-center border-bottom mb-2'>Register</h3>
-            <form onSubmit={onSubmit}>
-                <h4>Name:</h4>
+      <div className='auth_container'>
+
+          <div className='card_auth_register'>
+            <div className='inputs_container'>
+              <h3 className='text-center border-bottom mb-2'>Register</h3>
+              <form onSubmit={onSubmit}>
+                  <h4>Name:</h4>
+                    <input
+                      className='form-control' 
+                      type="text"
+                      name='name' 
+                      placeholder='John doe'
+                      value={ name }
+                      onChange={onInputChange} 
+                  />
+                  <h4>Email:</h4>
                   <input
                     className='form-control' 
-                    type="text"
-                    name='name' 
-                    placeholder='John doe'
-                    value={ name }
+                    type="email"
+                    name='email' 
+                    placeholder='email@gmail.com'
+                    value={ email }
                     onChange={onInputChange} 
-                />
-                <h4>Email:</h4>
-                <input
-                  className='form-control' 
-                  type="email"
-                  name='email' 
-                  placeholder='email@gmail.com'
-                  value={ email }
-                  onChange={onInputChange} 
-                />
-                <h4>Password:</h4>
-                <input 
-                  className='form-control input'
-                  type="password"
-                  name='password'
-                  placeholder='your password'
-                  value={ password } 
-                  onChange={onInputChange}
-                /> 
-            </form>
-          </div>
-          <div className='buttons-container'>
-            <button
-                type='submit'
-                className='btn btn-primary mt-3 form-button'
-                onClick={onSubmit}
-              >
-                Crear cuenta
-            </button>
+                  />
+                  <h4>Password:</h4>
+                  <input 
+                    className='form-control input'
+                    type="password"
+                    name='password'
+                    placeholder='your password'
+                    value={ password } 
+                    onChange={onInputChange}
+                  /> 
+              </form>
+            </div>
+            <div className='buttons-container'>
+              <button
+                  type='submit'
+                  className='btn btn-primary mt-3 form-button'
+                  onClick={onSubmit}
+                >
+                  Crear cuenta
+              </button>
 
-            <Link to='/auth/login'>
-              ¿Ya tienes una?, ingresa!
-            </Link>
+              <Link to='/auth/login'>
+                ¿Ya tienes una? ingresa!
+              </Link>
+
+            </div>
 
           </div>
 
-        </div>
-
+      </div>
     </div>
   )
 }

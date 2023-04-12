@@ -1,21 +1,22 @@
 * {
   box-sizing: border-box;
-  padding: 5px;
+
 }
 
-body {
-  background-color: rgba(231, 235, 235, 0.605);
-}
+/* body {
+  background-color: rgba(231, 235, 235, 0.605); */
+
 
 .auth_container {
   display: flex;
-  height: calc(100vh - 200px);
+  /* height: calc(100vh - 200px); */
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .card_auth {
+  padding: 10px;
   background-color: white;
   border-radius: 10px;
   width: 400px;
@@ -24,10 +25,11 @@ body {
 }
 
 .card_auth_register {
+  padding: 10px;
   background-color: white;
   border-radius: 10px;
   width: 400px;
-  height: 450px;
+  height: 400px;
   box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -49,4 +51,71 @@ body {
 
 a {
   align-self: flex-end;
+}
+
+.titles-container {
+  background-color: rgba(43, 123, 197, 0.424);
+  color: #ffffff;
+  display: flex;
+  width: 90%;
+  align-self: center;
+  margin-top: 10px;
+  border-radius: 15px;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+}
+
+.logout-button {
+  height: 37px;
+}
+
+
+.todos-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.todos-add {
+  align-self: center;
+  width: 65%;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.todo-add-button {
+  margin-top: 10px;
+  width: 150px;
+}
+
+.about {
+  display: flex;
+}
+
+.todos-list {
+  width: 70%;
+  background-color: #ffffff;
+  align-self: center;
+  padding: 25px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.todo-app {
+  height: 100vh;
+  background-color: rgba(225, 225, 225, 0.34);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

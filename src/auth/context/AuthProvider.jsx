@@ -43,16 +43,11 @@ export const AuthProvider = ({ children }) => {
     }
 
     const register = async(nombre, correo, password) => {
-      
-      const { status } = await axiosInstance.post('auth/register', {
+    
+      await axiosInstance.post('auth/register', {
         nombre, correo, password
       });
-
-      if (status !== 200) {
-        return false;
-      }
-
-      return true;
+      
     }
 
   return (

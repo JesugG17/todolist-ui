@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const { token } = JSON.parse(localStorage.getItem('user')) || { token: 'no-token' };
-
+console.log(token);
 const instance = axios.create({
     baseURL: 'http://localhost:8080/v2/api/',
     timeout: 5000,
@@ -17,13 +17,18 @@ export const deleteTodo = async( todoid ) => {
 
 export const postTodo = async( description ) => {
 
-    const { data } = await instance.post('todos', {
-        description
-    });
+    try {
+        const { data } = await instance.post('todos', {
+            description
+        });
+        
+        const { todo } = data;
 
-    const { todo } = data;
+        return todo;
+    } catch (error) {
+        console.log('Algo salio mal');
+    }
 
-    return todo;
 }
 
 export const getTodos = async() => {

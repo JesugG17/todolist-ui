@@ -9,6 +9,8 @@ export const TodoAdd = ({ handleAddTodo }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (description.length < 1 ) return;
+        console.log(description);
         handleAddTodo(description);
         onResetForm();
     }
@@ -25,12 +27,14 @@ export const TodoAdd = ({ handleAddTodo }) => {
             onChange={onInputChange}
         />
         </form>
-        <button
-            className="btn btn-outline-primary mt-1"
-            onClick={handleSubmit}
-        >
-            Submit
-        </button>
+        <div className="button-container">
+            <button
+                className="btn btn-outline-primary todo-add-button"
+                onClick={handleSubmit}
+            >
+                Submit
+            </button>
+        </div>
 
     </>
   );
