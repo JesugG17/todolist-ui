@@ -38,6 +38,11 @@
   flex-direction: column;
 }
 
+label {
+  font-size: 1.3em;
+  margin: 5px 0 5px 0;
+}
+
 .form-button {
   width: 100%;
   align-self: flex-start;
@@ -54,8 +59,7 @@ a {
 }
 
 .titles-container {
-  background-color: rgba(43, 123, 197, 0.424);
-  color: #ffffff;
+  background-color: rgb(255, 255, 255);
   display: flex;
   width: 90%;
   align-self: center;
@@ -94,6 +98,12 @@ a {
 
 .about {
   display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.about p {
+  font-size: 2em;
 }
 
 .todos-list {
@@ -103,6 +113,10 @@ a {
   padding: 25px;
   border-radius: 10px;
   margin-top: 15px;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .todo-app {

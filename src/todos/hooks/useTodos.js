@@ -4,7 +4,7 @@ import { getTodos, postTodo, deleteTodo } from '../helpers';
 
 export const useTodos = () => {
     
-    const [todos, dispatch] = useReducer(todoReducer, []); 
+    const [todos, dispatch] = useReducer(todoReducer, []);
 
     const addTodosFirstTime = async() => {
         const allTodos = await getTodos();

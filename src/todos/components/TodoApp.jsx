@@ -3,11 +3,11 @@ import { TodoList } from './TodoList';
 import { useTodos } from '../hooks/useTodos';
 import { TodoAdd } from './TodoAdd';
 import { AuthContext } from '../../auth/context';
+import { Header } from './Header';
 
 export const TodoApp = () => {
 
     const { user: { usuario } } = useContext(AuthContext);
-
     const { todos,
             addTodosFirstTime,
             handleAddTodo,
@@ -19,17 +19,9 @@ export const TodoApp = () => {
 
   return (
     <div className='todo-app'>  
-        <div className='titles-container mb-3'>
-            <h1>TodosApp</h1>
-            <div className='about'>
-                <p>{ usuario.correo }</p>
-                <button className='btn btn-danger logout-button'>
-                    Logout
-                </button>
-            </div>
-        </div>
+        
         <div className='todos-container'>
-
+            <Header nombre={ usuario.nombre }/>
             <div className='todos-add'>
                 <TodoAdd handleAddTodo={ handleAddTodo }/>
             </div>

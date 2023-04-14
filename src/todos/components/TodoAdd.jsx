@@ -10,6 +10,7 @@ export const TodoAdd = ({ handleAddTodo }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (description.length < 1 ) return;
+        
         console.log(description);
         handleAddTodo(description);
         onResetForm();
@@ -18,18 +19,19 @@ export const TodoAdd = ({ handleAddTodo }) => {
   return (
     <>
         <form onSubmit={handleSubmit}>
-        <input
-            type="text"
-            placeholder="Tareas por hacer"
-            className="form-control mb-"
-            name="description"
-            value={description}
-            onChange={onInputChange}
-        />
+            <input
+                type='text'
+                placeholder='Tareas por hacer'
+                className='form-control mb-'
+                name='description'
+                value={description}
+                onChange={onInputChange}
+            />
         </form>
-        <div className="button-container">
+        <div className='button-container'>
             <button
-                className="btn btn-outline-primary todo-add-button"
+                type='submit'
+                className='btn btn-outline-primary todo-add-button'
                 onClick={handleSubmit}
             >
                 Submit

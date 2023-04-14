@@ -10,13 +10,15 @@ export const LoginPage = () => {
 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
-  const { email, password, onResetForm, onInputChange, formState } = useForm({
+  const { email = '', password = '', onResetForm, onInputChange } = useForm({
     email: '',
     password: ''
   });
 
   const onSubmit = async(event) => {
     event.preventDefault();
+
+    if (email.length <= 1 || password.length <= 1) return;
     
     await login(email, password);
     onResetForm();
@@ -32,8 +34,8 @@ export const LoginPage = () => {
           <div className='card_auth'>
             <div className='inputs_container'>
               <h3 className='text-center border-bottom mb-2'>Login</h3>
-              <form onSubmit={onSubmit}>
-                  <h4>Email:</h4>
+              <form onSubmit={ onSubmit }>
+                  <label>Email</label>
                   <input
                     className='form-control' 
                     type="email"
@@ -42,7 +44,7 @@ export const LoginPage = () => {
                     value={ email }
                     onChange={onInputChange} 
                   />
-                  <h4>Password:</h4>
+                  <label>Password</label>
                   <input 
                     className='form-control input'
                     type="password"
