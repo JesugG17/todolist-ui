@@ -1,24 +1,13 @@
-import axios from 'axios';
-
-const { token } = JSON.parse(localStorage.getItem('user')) || { token: 'no-token' };
-console.log(token);
-const instance = axios.create({
-    baseURL: 'http://localhost:8080/v2/api/',
-    timeout: 5000,
-    headers: {
-        'Content-Type': 'application/json',
-        'x-token': token
-    }
-});
+import { api } from "../../api/api";
 
 export const deleteTodo = async( todoid ) => {
-    await instance.delete(`todos/${todoid}`);
+    await api.delete(`/todos/${todoid}`);
 }
 
 export const postTodo = async( description ) => {
 
     try {
-        const { data } = await instance.post('todos', {
+        const { data } = await api.post('/todos', {
             description
         });
         
@@ -32,7 +21,7 @@ export const postTodo = async( description ) => {
 }
 
 export const getTodos = async() => {
-    const { data } = await instance.get('todos');
+    const { data } = await api.get('/todos');
     const { todos } = data;
     return todos;
 }

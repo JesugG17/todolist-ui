@@ -1,7 +1,7 @@
 import { useReducer, useState } from 'react';
 import { useNavigate } from 'react-router';
-import axios from 'axios';
 import { AuthContext, authReducer, types } from './';
+import { api } from '../../api/api';
 
 const init = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -18,15 +18,10 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [authState, dispatch] = useReducer(authReducer, {}, init);
     const [token, setToken] = useState('');
-    const axiosInstance = axios.create({
-      baseURL: 'http://localhost:8080/v2/api/',
-      timeout: 5000
-    });
 
     const login = async(correo, password) => {
 
-
-        const { data, status } = await axiosInstance.post('auth/login',{
+        const { data, status } = await api.post('auth/login',{
           correo, password
         });
         
@@ -38,8 +33,8 @@ export const AuthProvider = ({ children }) => {
             type: types.login,
             payload: data
         };
+        console.log(data);
 
-        // setToken(data.token)
         localStorage.setItem('user', JSON.stringify(data));
 
         dispatch(action);

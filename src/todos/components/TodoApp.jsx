@@ -4,18 +4,20 @@ import { useTodos } from '../hooks/useTodos';
 import { TodoAdd } from './TodoAdd';
 import { AuthContext } from '../../auth/context';
 import { Header } from './Header';
+import { api } from '../../api/api';
 
 export const TodoApp = () => {
 
-    const { user: { usuario } } = useContext(AuthContext);
+    const { user: { usuario, token } } = useContext(AuthContext);
     const { todos,
             addTodosFirstTime,
             handleAddTodo,
             handleDeleteTodo } = useTodos();
 
     useEffect(() => {
+        api.defaults.headers.common['x-token'] = token;
         addTodosFirstTime();
-    },[]);
+    },[token]);
 
   return (
     <div className='todo-app'>  
