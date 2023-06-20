@@ -133,3 +133,24 @@ a {
   justify-content: center;
   align-items: center;
 }
+
+
+.modal {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.295);
+}
+
+.card__update {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  height: 20%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 10px;
+}

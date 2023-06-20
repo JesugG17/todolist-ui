@@ -34,7 +34,7 @@ export const TodoAdd = ({ handleAddTodo }) => {
                 className='btn btn-outline-primary todo-add-button'
                 onClick={handleSubmit}
             >
-                Submit
+                Add
             </button>
         </div>
 

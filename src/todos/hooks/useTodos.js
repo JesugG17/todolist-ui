@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { todoReducer } from '../components/todoReducer';
-import { getTodos, postTodo, deleteTodo } from '../helpers';
+import { getTodos, postTodo, deleteTodo, updateTodo } from '../helpers';
 
 export const useTodos = () => {
     
@@ -34,11 +34,24 @@ export const useTodos = () => {
         dispatch(action);
     }
 
+    const handleUpdateTodo = async( todo, newDescription ) => {
+        await updateTodo(todo.todoId, newDescription);
+        const action = {
+            type: 'update-todo',
+            payload: {
+                ...todo,
+                description: newDescription
+            }
+        }
+        dispatch(action);
+    }
+
     return {
         todos,
         addTodosFirstTime,
         handleAddTodo,
-        handleDeleteTodo
+        handleDeleteTodo,
+        handleUpdateTodo
     }
 
 

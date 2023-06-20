@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
   
     const navigate = useNavigate();
     const [authState, dispatch] = useReducer(authReducer, {}, init);
-    const [token, setToken] = useState('');
 
     const login = async(correo, password) => {
 
@@ -33,7 +32,7 @@ export const AuthProvider = ({ children }) => {
             type: types.login,
             payload: data
         };
-        console.log(data);
+        console.log({data});
 
         localStorage.setItem('user', JSON.stringify(data));
 
