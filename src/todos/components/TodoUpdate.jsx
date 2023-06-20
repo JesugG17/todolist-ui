@@ -1,8 +1,24 @@
+import { useCallback } from "react";
+import { useEffect } from "react";
+import { useMemo } from "react";
 import { useState } from "react";
 
 export const TodoUpdate = ({ todo, handleUpdateTodo, setOpenModal }) => {
 
   const [value, setValue] = useState(todo.description);
+  const handleEscKey = useCallback((event) => {
+    if (event.keyCode === 27) {
+      setOpenModal(false);
+    }
+  }); // 27 = ESC
+
+  useEffect(() => {
+    document.addEventListener("keyup", handleEscKey, false);
+
+    return () => {
+      document.removeEventListener("keyup", handleEscKey, false);
+    }
+  }, [ handleEscKey ]);
   return (
     <div 
       className="modal"
