@@ -1,6 +1,4 @@
 
-
-
 export const todoReducer = (state = [], action = {}) => {
 
     switch (action.type) {
@@ -19,7 +17,12 @@ export const todoReducer = (state = [], action = {}) => {
             })
             return newTodos;
         case 'toggle-todo':
-            break;
+            return state.map( todo => {
+                if (todo.todoId === action.payload) {
+                    todo.estatus = !todo.estatus;
+                }
+                return todo;
+            });
         default:
             return state;
     }

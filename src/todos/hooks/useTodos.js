@@ -46,11 +46,20 @@ export const useTodos = () => {
         dispatch(action);
     }
 
+    const handleToggleTodo = ( id ) => {
+        const action = {
+            type: 'toggle-todo',
+            payload: id
+        }
+        dispatch(action);
+    }
+
     return {
         todos,
         addTodosFirstTime,
         handleAddTodo,
         handleDeleteTodo,
+        handleToggleTodo,
         handleUpdateTodo
     }
 

@@ -15,6 +15,7 @@ export const TodoApp = () => {
             addTodosFirstTime,
             handleAddTodo,
             handleUpdateTodo,
+            handleToggleTodo,
             handleDeleteTodo } = useTodos();
 
     const [openModal, setOpenModal] = useState(false);
@@ -42,6 +43,7 @@ export const TodoApp = () => {
                                 todo={ todo }
                                 handleDeleteTodo={ handleDeleteTodo }
                                 setOpenModal={ setOpenModal }
+                                handleToggleTodo={ handleToggleTodo }
                                 setTodo={ setTodo }
                             />
                         )
