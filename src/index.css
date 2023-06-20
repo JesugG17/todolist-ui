@@ -154,3 +154,8 @@ a {
   border-radius: 5px;
   padding: 10px;
 }
+
+.actions__buttons {
+  display: flex;
+  gap: 10px;
+}

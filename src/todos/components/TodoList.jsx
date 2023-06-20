@@ -8,7 +8,7 @@ export const TodoList = React.memo(({ todo, handleDeleteTodo, setOpenModal, setT
     <ul className="list-group pointer">
       <li className="list-group-item d-flex justify-content-between align-items-center">
           <span>{ description }</span>
-          <div className="">
+          <div className="actions__buttons">
             <button
               className="btn btn-primary"
               onClick={() => {
