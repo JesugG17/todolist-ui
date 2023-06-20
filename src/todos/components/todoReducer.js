@@ -11,9 +11,13 @@ export const todoReducer = (state = [], action = {}) => {
         case 'delete-todo':
             return state.filter( todo => todo.todoId !== action.payload )
         case 'update-todo':
-            const newTodos = state.filter( todo => todo.todoId !== action.payload.todoId );
-            console.log({newTodos, action: action.payload});
-            return [...newTodos, action.payload];
+            const newTodos = state.map( todo => {
+                if (todo.todoId === action.payload.todoId) {
+                    return action.payload
+                }
+                return todo;
+            })
+            return newTodos;
         case 'toggle-todo':
             break;
         default:
