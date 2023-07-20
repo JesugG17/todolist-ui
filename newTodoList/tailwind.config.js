@@ -11,6 +11,7 @@ export default {
         "secondary": "#25273C",
         "background": "#181824",
         "background-light": "#262633",
+        "test": "#3B3D52"
       }
     },
   },
