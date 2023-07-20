@@ -40,7 +40,7 @@ export const TaskPage = () => {
         <h1 className='text-2xl md:text-3xl'>T O D O</h1>
         <input className='bg-secondary rounded p-4 text-xs md:text-sm focus:outline-none text-slate-400 placeholder:text-gray-600' type="text" placeholder='Create new todo...'/>
 
-        <div className='bg-secondary rounded'>
+        <div className='bg-secondary rounded shadow-lg'>
           <ul className='divide-y-2 divide-slate-700'>
               {
                 todos.map( (todo, index) => (
@@ -60,7 +60,12 @@ export const TaskPage = () => {
                               ( <Completed /> )
                             }
                         </button>
-                        <input className='bg-transparent text-slate-400 font-medium focus:outline-none' type="text" value={todo.description}/>
+                        <input 
+                          onClick={() => console.log('doble click')} 
+                          className={`bg-transparent text-slate-400 font-medium focus:outline-none select-all transition-all duration-200 ${ todo.completed && 'line-through opacity-25'}`} 
+                          type="text"
+                          disabled={ todo.completed } 
+                          value={todo.description}/>
                       </div>
                       <button>
                         <Cross />
@@ -75,10 +80,13 @@ export const TaskPage = () => {
               </div>
           </ul>
         </div>
-        <footer className='bg-secondary p-3 text-primary font-bold flex justify-center gap-5'>
+        <div className='bg-secondary p-3 text-primary font-bold flex justify-center gap-5'>
           <button>All</button>
           <button>Active</button>
           <button>Completed</button>
+        </div>
+        <footer className='text-center text-gray-600'>
+          <p>Drag and over to reorder list!</p>
         </footer>
       </main>
     </div>
