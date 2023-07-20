@@ -1,14 +1,12 @@
-import { createBrowserRouter } from "react-router-dom";
-import { AuthPage } from "../modules/auth/pages/AuthPage";
+import { Navigate, Route, Routes } from "react-router";
+import { AuthRoutes } from "../modules/auth/routes/AuthRoutes";
 
+export const AppRouter = () => {
+  return (
+    <Routes>
+        <Route path="/auth/*" element={ <AuthRoutes /> }/>
 
-export const AppRouter = createBrowserRouter([
-    {
-        path: '/auth',
-        element: <AuthPage />
-    },
-    {
-        path: '/*',
-        element: <AuthPage />
-    }
-]);
+        <Route path="/*" element={ <Navigate to='/auth/login' />} />
+    </Routes>
+  )
+}
