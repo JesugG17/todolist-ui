@@ -1,36 +1,18 @@
-import { useState } from 'react';
 import { Completed, Cross } from '../../ui/Icons';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { useDrag } from '../hooks/useDrag';
 
-interface Todo {
+export interface Todo {
   todoId: number;
   description: string;
   completed: boolean;
 }
 
-const fakeTodos: Todo[] = [
-  {
-    todoId: 1,
-    description: 'Complete thisa application',
-    completed: false
-  },
-  {
-    todoId: 3,
-    description: 'Complete thisa application',
-    completed: false
-  },
-  {
-    todoId: 2,
-    description: 'Complete thisa application',
-    completed: false
-  },
-
-]
-
 export const TaskPage = () => {
 
   const isMobile = useIsMobile();
-  const [todos, setTodos] = useState(fakeTodos);
+  const { todos, setTodos, onDragStart, onDragOver,  onDrop } = useDrag();
+ 
 
   const handleCompleted = (todoId: number) => {
     const newTodos = todos.map( todo => {
@@ -46,7 +28,8 @@ export const TaskPage = () => {
     setTodos(newTodos);
   }
 
-  const itemsLeft = fakeTodos.filter( todo => !todo.completed).length;
+
+  const itemsLeft = todos.filter( todo => !todo.completed).length;
 
   return (
     <div className="relative w-full min-h-screen bg-background flex flex-col">
@@ -60,10 +43,14 @@ export const TaskPage = () => {
         <div className='bg-secondary rounded'>
           <ul className='divide-y-2 divide-slate-700'>
               {
-                todos.map( todo => (
+                todos.map( (todo, index) => (
                   <li
-                    className='p-4 text-xs md:text-sm'
+                    className='p-4 text-xs md:text-sm cursor-pointer w-full'
                     key={todo.todoId}
+                    onDragStart={() => onDragStart(index)}
+                    onDragEnter={() => onDragOver(index)}
+                    onDragEnd={onDrop}
+                    draggable
                   >
                     <div className='flex justify-between'>
                       <div className='flex gap-2 items-center'>
