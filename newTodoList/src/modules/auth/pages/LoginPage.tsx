@@ -32,13 +32,13 @@ export const LoginPage = () => {
             type="text"
           />
         </div>
-        <button className="bg-orange-400 p-1 rounded text-white font-medium hover:bg-orange-300 transition-all duration-200">Sign up</button>
+        <button className="bg-orange-500 p-2 rounded text-white font-medium hover:bg-orange-400 transition-all duration-200 shadow-sm shadow-orange-400">Sign up</button>
         <h4 className="text-white text-center">OR</h4>
         <button className="bg-slate-100 p-1 font-medium rounded flex gap-2 items-center justify-center hover:bg-white transition-all duration-200">
           <Google/>
           Google
         </button>
-        <div className='text-slate-300 text-center text-xs flex flex-col gap-1 md:flex-row justify-center text-sm'>
+        <div className='text-slate-300 text-center text-xs flex flex-col gap-1 md:flex-row justify-center md:text-sm'>
           <p>You don't have an account?</p>
           <Link className='text-blue-500 font-medium' to='/auth/register'>Sign up!</Link>
         </div>
