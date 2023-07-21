@@ -13,7 +13,7 @@ interface State {
     register: (userName: string, email: string, password: string) => Promise<void>
     googleSignIn: (token: string) => Promise<void>;
     logout: () => void;
-    setChecking: () => void;
+    setChecking: (value?: boolean) => void;
 }
 
 export const useAuthStore = create<State>((set) => ({
@@ -29,7 +29,7 @@ export const useAuthStore = create<State>((set) => ({
         
         if (data.code === 200) {
             localStorage.setItem('token', data.data.token);
-            set({ status: 'authorized', userName: data.data.user });
+            set({ status: 'authorized', userName: data.data.user, checking: false });
         }
 
         if (data.code >= 400) {
@@ -41,8 +41,6 @@ export const useAuthStore = create<State>((set) => ({
             userName, email, password
         });
         
-        console.log(data);
-
         if (data.code === 201) {
             toast.success(data.messages[0]);
         }
@@ -52,7 +50,6 @@ export const useAuthStore = create<State>((set) => ({
             throw new Error('An error has ocurred while registering');
         }
 
-        console.log(data);
         set({
             checking: false,
             messages: data.messages,
@@ -66,7 +63,7 @@ export const useAuthStore = create<State>((set) => ({
 
         if (data.code === 200) {
             localStorage.setItem('token', data.data.token);
-            set({ status: 'authorized', userName: data.data.user });
+            set({ status: 'authorized', userName: data.data.user, checking: false });
         }
 
         if (data.code >= 400) {
@@ -77,7 +74,7 @@ export const useAuthStore = create<State>((set) => ({
     logout: () => {
 
     },
-    setChecking: () => {
-        set({ checking: true });
+    setChecking: (value: boolean = true) => {
+        set({ checking: value });
     }
 }))
