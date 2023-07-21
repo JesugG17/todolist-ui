@@ -1,4 +1,4 @@
-import { useId, useState, FormEvent, ChangeEvent } from 'react';
+import { useId, useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Google } from "../../ui/Icons"
 import { AuthLayout } from "../layout/AuthLayout"
@@ -9,7 +9,7 @@ export const LoginPage = () => {
 
   const emailInputId = useId();
   const passwordInputId = useId();
-  const { login } = useAuthStore();
+  const { login, status } = useAuthStore();
   const googleSignIn = useGoogle();
 
   const navigate = useNavigate();
@@ -17,6 +17,14 @@ export const LoginPage = () => {
     email: '',
     password: ''
   });
+
+  useEffect(() => {
+    if (status === 'authorized') {
+      navigate('/task', {
+        replace: true
+      });
+    }
+  }, [status])
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -34,14 +42,13 @@ export const LoginPage = () => {
 
     try {
       await login(email, password);
-      navigate('/task', {
-        replace: true
-      });
+
     } catch (error) {
-      
+      console.log(error);      
     }
   }
 
+  
   return (
     <AuthLayout title="Sign In">
       <form 
