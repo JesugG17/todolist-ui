@@ -1,14 +1,16 @@
 import { useId, useState, FormEvent, ChangeEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Google } from "../../ui/Icons"
 import { AuthLayout } from "../layout/AuthLayout"
-import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth/authStore';
+import { useGoogle } from '../hooks/useGoogle';
 
 export const LoginPage = () => {
 
   const emailInputId = useId();
   const passwordInputId = useId();
   const { login } = useAuthStore();
+  const googleSignIn = useGoogle();
 
   const navigate = useNavigate();
   const [formState, setFormState] = useState({
@@ -72,7 +74,9 @@ export const LoginPage = () => {
         </div>
         <button className="bg-orange-500 p-2 rounded text-white font-medium hover:bg-orange-400 transition-all duration-200 shadow-sm shadow-orange-400">Sign up</button>
         <h4 className="text-white text-center flex items-center before:content-[''] before:mr-4 before:flex-1 before:border-b-2 before:border-gray-500 after:content-[''] after:flex-1 after:border-b-2 after:border-gray-500 after:ml-4 ">OR</h4>
-        <button className="bg-slate-100 p-1 font-medium rounded flex gap-2 items-center justify-center hover:bg-white transition-all duration-200">
+
+        
+        <button onClick={() => googleSignIn()} className="bg-slate-100 p-1 font-medium rounded flex gap-2 items-center justify-center hover:bg-white transition-all duration-200">
           <Google/>
           Google
         </button>

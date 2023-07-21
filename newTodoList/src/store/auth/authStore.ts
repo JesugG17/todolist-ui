@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { authApi } from "../../api/authApi";
-import { TaskApi } from "../../modules/auth/types/TaskApiResponse";
+import { AuthReponse } from "../../modules/auth/types/authReponse";
 import { toast } from "react-hot-toast";
 
 interface State {
@@ -20,7 +20,7 @@ export const useAuthStore = create<State>((set, get) => ({
     messages: [],
     code: 0,
     login: async(email: string, password: string) => {
-        const { data } = await authApi.post<TaskApi>('/login', {
+        const { data } = await authApi.post<AuthReponse>('/login', {
             email, password
         });
         
@@ -36,7 +36,7 @@ export const useAuthStore = create<State>((set, get) => ({
         }
     },
     register: async(userName: string, email: string, password: string) => {
-        const { data } = await authApi.post<TaskApi>('/register', {
+        const { data } = await authApi.post<AuthReponse>('/register', {
             userName, email, password
         });
         
