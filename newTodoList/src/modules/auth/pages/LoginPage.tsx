@@ -33,7 +33,7 @@ export const LoginPage = () => {
           />
         </div>
         <button className="bg-orange-500 p-2 rounded text-white font-medium hover:bg-orange-400 transition-all duration-200 shadow-sm shadow-orange-400">Sign up</button>
-        <h4 className="text-white text-center">OR</h4>
+        <h4 className="text-white text-center flex items-center before:content-[''] before:mr-4 before:flex-1 before:border-b-2 before:border-gray-500 after:content-[''] after:flex-1 after:border-b-2 after:border-gray-500 after:ml-4 ">OR</h4>
         <button className="bg-slate-100 p-1 font-medium rounded flex gap-2 items-center justify-center hover:bg-white transition-all duration-200">
           <Google/>
           Google

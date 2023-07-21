@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { Todo } from '../../modules/task/pages/TaskPage';
 
 interface State {
-    userToken: string | null;
     todos: Todo[],
     loading: boolean;
     initTodos: () => Promise<void>;
@@ -13,7 +12,6 @@ interface State {
 }
 
 export const useTasksStore = create<State>((set, get) => ({
-    userToken: null,
     todos: [],
     loading: false,
     initTodos: async() => {
@@ -29,6 +27,6 @@ export const useTasksStore = create<State>((set, get) => ({
 
     },
     updateTodo: async(todoId: number, newDescription: string) => {
-        
+
     }
 }));
