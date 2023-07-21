@@ -1,17 +1,49 @@
-import { useId } from 'react'
+import { useId, useState, FormEvent, ChangeEvent } from 'react';
 import { Google } from "../../ui/Icons"
 import { AuthLayout } from "../layout/AuthLayout"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../../store/auth/authStore';
 
 export const LoginPage = () => {
 
   const emailInputId = useId();
   const passwordInputId = useId();
+  const { login } = useAuthStore();
+
+  const navigate = useNavigate();
+  const [formState, setFormState] = useState({
+    email: '',
+    password: ''
+  });
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value
+    });
+  }
+
+  const onSubmit = async(event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { email, password } = formState;
+
+    if (email.length === 0 || password.length === 0) return;
+
+    try {
+      await login(email, password);
+      navigate('/task', {
+        replace: true
+      });
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <AuthLayout title="Sign In">
       <form 
-        onSubmit={(event) => event.preventDefault()}
+        onSubmit={onSubmit}
         className='flex flex-col gap-5'
       >
         <div className="text-orange-400 flex flex-col gap-2">
@@ -21,6 +53,9 @@ export const LoginPage = () => {
             className="bg-primary p-2 text-sm rounded text-white"
             placeholder="example@gmail.com" 
             type="text"
+            name='email'
+            value={formState.email}
+            onChange={onChange}
           />
         </div>
         <div className="text-orange-400 flex flex-col gap-2">
@@ -29,7 +64,10 @@ export const LoginPage = () => {
             id={passwordInputId}
             className="bg-primary p-2 text-sm rounded text-white"
             placeholder="Enter password" 
-            type="text"
+            type="password"
+            name='password'
+            value={formState.password}
+            onChange={onChange}
           />
         </div>
         <button className="bg-orange-500 p-2 rounded text-white font-medium hover:bg-orange-400 transition-all duration-200 shadow-sm shadow-orange-400">Sign up</button>

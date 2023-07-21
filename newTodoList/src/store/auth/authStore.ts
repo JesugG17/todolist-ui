@@ -1,8 +1,7 @@
 import { create } from "zustand";
-import { taskApi } from "../../api/taskApi";
+import { authApi } from "../../api/authApi";
 import { TaskApi } from "../../modules/auth/types/TaskApiResponse";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router";
 
 interface State {
     status: string;
@@ -21,11 +20,23 @@ export const useAuthStore = create<State>((set, get) => ({
     messages: [],
     code: 0,
     login: async(email: string, password: string) => {
+        const { data } = await authApi.post<TaskApi>('/login', {
+            email, password
+        });
         
-        
+        console.log(data);
+
+        if (data.code === 200) {
+            localStorage.setItem('token', data.data.token);
+            set({ status: 'authorized' });
+        }
+
+        if (data.code >= 400) {
+            throw new Error('An error has ocurred while login');
+        }
     },
     register: async(userName: string, email: string, password: string) => {
-        const { data } = await taskApi.post<TaskApi>('/auth/register', {
+        const { data } = await authApi.post<TaskApi>('/register', {
             userName, email, password
         });
         
