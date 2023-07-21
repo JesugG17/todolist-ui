@@ -6,21 +6,16 @@ import { useAuthStore } from "../store/auth/authStore";
 export const AppRouter = () => {
   
   const status = useAuthStore(state => state.status);
-  
   return (
     <Routes>
-        {
-          status === 'non-authorized' &&
-          (
+      
             <Route path="/auth/*" element={ <AuthRoutes /> }/>
-          )
-        }
-        {
-          status === 'authorized' &&
-          (
-            <Route path="/task" element={ <TaskPage /> } />
-          )
-        }
+            {
+              status === 'authorized' &&
+              (
+                <Route path="/task" element={ <TaskPage /> } />
+              )
+            }
         <Route path="/*" element={ <Navigate to='/auth/login' />} />
     </Routes>
   )
