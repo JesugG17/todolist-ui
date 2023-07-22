@@ -8,7 +8,6 @@ export const AppRouter = () => {
   const status = useAuthStore(state => state.status);
   return (
     <Routes>
-      
             <Route path="/auth/*" element={ <AuthRoutes /> }/>
             {
               status === 'authorized' &&

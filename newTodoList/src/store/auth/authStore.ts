@@ -33,6 +33,7 @@ export const useAuthStore = create<State>((set) => ({
         }
 
         if (data.code >= 400) {
+            set({ checking: false });
             throw new Error('An error has ocurred while login');
         }
     },
