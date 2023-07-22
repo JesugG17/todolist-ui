@@ -6,6 +6,6 @@ export interface AuthResponse {
 }
 
 interface Info {
-    user: string;
+    user: string | { userName: string, photo: string };
     token: string;
 }

@@ -1,7 +1,8 @@
 import { Completed, Cross } from '../../ui/Icons';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { useDrag } from '../hooks/useDrag';
-import { useAuthStore } from '../../../store/auth/authStore';
+import { Navbar } from '../components/Navbar';
+import { ModalPhoto } from '../components/ModalPhoto';
 
 export interface Todo {
   todoId: number;
@@ -13,7 +14,6 @@ export const TaskPage = () => {
 
   const isMobile = useIsMobile();
   const { todos, setTodos, onDragStart, onDragOver,  onDrop } = useDrag();
-  const userName = useAuthStore(state => state.userName);
 
   const handleCompleted = (todoId: number) => {
     const newTodos = todos.map( todo => {
@@ -33,12 +33,13 @@ export const TaskPage = () => {
   const itemsLeft = todos.filter( todo => !todo.completed).length;
 
   return (
-    <div className="relative w-full min-h-screen bg-background flex flex-col">
+    <div className="w-full min-h-screen bg-background flex flex-col">
+      <Navbar />
+      <ModalPhoto />
       <header className="lg:h-1/4">
         <img className="w-full lg:h-60" src={`/img/bg-${ isMobile ? 'mobile' : 'desktop'}-dark.jpg`} alt="" />
       </header>
-      <h1 className='text-white font-bold'>{ userName }</h1>
-      <main className='absolute top-8 lg:top-16 w-3/4 md:w-2/4 lg:w-2/5 xl:w-1/4 text-white self-center flex flex-col gap-5'>
+      <main className='absolute top-20 lg:top-24 w-3/4 md:w-2/4 lg:w-2/5  text-white self-center flex flex-col gap-5'>
         <h2 className='text-2xl md:text-3xl'>T O D O</h2>
         <input className='bg-secondary rounded p-4 text-xs md:text-sm focus:outline-none text-slate-400 placeholder:text-gray-600' type="text" placeholder='Create new todo...'/>
 
@@ -83,7 +84,7 @@ export const TaskPage = () => {
           </ul>
         </div>
         <div className='bg-secondary p-3 text-primary font-bold flex justify-center gap-5'>
-          <button>All</button>
+          <button className='text-blue-500 font-bold shadow border-b-2 border-b-blue-500'>All</button>
           <button>Active</button>
           <button>Completed</button>
         </div>

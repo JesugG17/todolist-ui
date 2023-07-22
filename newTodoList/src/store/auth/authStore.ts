@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 interface State {
     status: string;
     userName: string | null;
+    photo: string | null,
     checking: boolean;
     messages: string[];
     code: number;
@@ -19,6 +20,7 @@ interface State {
 export const useAuthStore = create<State>((set) => ({
     status: 'non-authorized',
     userName: null,
+    photo: null,
     checking: false,
     messages: [],
     code: 0,
@@ -29,7 +31,7 @@ export const useAuthStore = create<State>((set) => ({
         
         if (data.code === 200) {
             localStorage.setItem('token', data.data.token);
-            set({ status: 'authorized', userName: data.data.user, checking: false });
+            set({ status: 'authorized', userName: data.data.user as string, checking: false });
         }
 
         if (data.code >= 400) {
@@ -62,9 +64,17 @@ export const useAuthStore = create<State>((set) => ({
             code
         });
 
+        const user = data.data.user as { userName: string, photo: string };
+
+        console.log(data);
         if (data.code === 200) {
             localStorage.setItem('token', data.data.token);
-            set({ status: 'authorized', userName: data.data.user, checking: false });
+            set({ 
+                status: 'authorized', 
+                userName: user.userName, 
+                checking: false,
+                photo: user.photo 
+            });
         }
 
         if (data.code >= 400) {
@@ -74,6 +84,12 @@ export const useAuthStore = create<State>((set) => ({
     },
     logout: () => {
 
+        set({
+            status: 'not-authorized',
+            userName: null,
+            messages: [],
+            code: 0
+        })
     },
     setChecking: (value: boolean = true) => {
         set({ checking: value });
