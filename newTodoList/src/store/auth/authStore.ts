@@ -29,6 +29,8 @@ export const useAuthStore = create<State>((set) => ({
             email, password
         });
         
+        console.log(data);
+
         if (data.code === 200) {
             localStorage.setItem('token', data.data.token);
             set({ status: 'authorized', userName: data.data.user as string, checking: false });

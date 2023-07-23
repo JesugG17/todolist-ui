@@ -17,6 +17,7 @@ export const LoginPage = () => {
 
   const navigate = useNavigate();
 
+  
   useEffect(() => {
     if (status === "authorized") {
       console.log("here");
@@ -25,7 +26,7 @@ export const LoginPage = () => {
       });
     }
   }, [status]);
-
+  
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -33,8 +34,9 @@ export const LoginPage = () => {
     },
     validate: validateForm,
     onSubmit: async(values) => {
-      if (values.email.length === 0 || values.password.length === 0) return;
-
+      console.log('hola');
+      // if (values.email.length === 0 || values.password.length === 0) return;
+      
       try {
         setChecking();
         await login(values.email, values.password);
@@ -43,7 +45,7 @@ export const LoginPage = () => {
       }
     },
   });
-
+  
   return (
     <AuthLayout title="Sign In">
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
@@ -89,6 +91,8 @@ export const LoginPage = () => {
           }
         </div>
         <button
+          type='submit'
+          onClick={() => formik.handleSubmit()}
           disabled={checking}
           className="bg-orange-500 p-2 rounded text-white font-medium hover:bg-orange-400 transition-all duration-200 shadow-sm shadow-orange-400 disabled:pointer-events-none disabled:opacity-40"
         >
