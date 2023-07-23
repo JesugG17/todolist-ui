@@ -6,7 +6,8 @@ import { toast } from "react-hot-toast";
 interface Store {
     status: string;
     userName: string | null;
-    photo: string | null,
+    user: User;
+    photo: string | null;
     checking: boolean;
     message: string | null;
     code: number;
@@ -21,6 +22,7 @@ interface Store {
 export const useAuthStore = create<Store>((set) => ({
     status: 'non-authorized',
     userName: null,
+    user: {} as User,
     photo: null,
     checking: false,
     message: null,
@@ -30,12 +32,12 @@ export const useAuthStore = create<Store>((set) => ({
             email, password
         });
         
-        console.log(data);
+        const photo = data.data.user.photo ?? '/img/user.png';
 
         if (data.code === 200) {
             toast.success('Login successfully')
             localStorage.setItem('token', data.data.token);
-            set({ status: 'authorized', userName: data.data.user as string, checking: false });
+            set({ status: 'authorized', user: {...data.data.user, photo}, checking: false });
         }
 
         if (data.code >= 400) {
@@ -68,16 +70,14 @@ export const useAuthStore = create<Store>((set) => ({
             code
         });
 
-        const user = data.data.user as { userName: string, photo: string };
 
         console.log(data);
         if (data.code === 200) {
             localStorage.setItem('token', data.data.token);
             set({ 
                 status: 'authorized', 
-                userName: user.userName, 
+                user: data.data.user, 
                 checking: false,
-                photo: user.photo 
             });
         }
 

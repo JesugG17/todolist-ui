@@ -3,19 +3,20 @@ import { useUIStore } from "../../../store/ui/uiStore";
 
 export const Navbar = () => {
 
-    const { userName, logout, photo } = useAuthStore();
+    const { logout, user } = useAuthStore();
     const openModal = useUIStore(state => state.openModal);
 
+    console.log(user);
   return (
     <nav className="bg-background w-full p-3 flex text-sm md:text-base justify-between items-center">
         <div className="flex gap-3 items-center">
             <img
                 onClick={openModal}
                 className="object-contain w-10 h-10 rounded-full cursor-pointer hover:scale-125 transition-all duration-200" 
-                src={`${ photo ? photo : "/img/user.png"}`} 
-                alt={`${ userName } photo`} 
+                src={user.photo} 
+                alt={`${ user.userName } photo`} 
             />
-            <h4 className="text-white font-medium">{ userName }</h4>
+            <h4 className="text-white font-medium">{ user.userName }</h4>
         </div>
         <button 
             onClick={ logout }

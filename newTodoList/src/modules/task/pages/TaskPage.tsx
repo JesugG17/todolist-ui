@@ -1,7 +1,7 @@
 import { useIsMobile } from '../hooks/useIsMobile';
 import { useDrag } from '../hooks/useDrag';
 import { Navbar } from '../components/Navbar';
-import { ModalPhoto } from '../components/ModalPhoto';
+import { ModalInfo } from '../components/ModalInfo';
 import { useTasksStore } from '../../../store/task/taskStore';
 import { useEffect, useState } from 'react';
 import { TaskItem } from '../components/TaskItem';
@@ -20,7 +20,7 @@ export const TaskPage = () => {
   return (
     <div className="w-full min-h-screen bg-background flex flex-col">
       <Navbar />
-      <ModalPhoto />
+      <ModalInfo />
       <header className="md:h-1/4">
         <img className="w-full lg:h-60" src={`/img/bg-${ isMobile ? 'mobile' : 'desktop'}-dark.jpg`} alt="" />
       </header>

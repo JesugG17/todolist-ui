@@ -1,11 +1,11 @@
 
 export interface AuthResponse {
-    data: Info,
+    data: Info;
     message: string;
     code: number;
 }
 
 interface Info {
-    user: string | { userName: string, photo: string };
+    user: User;
     token: string;
 }
