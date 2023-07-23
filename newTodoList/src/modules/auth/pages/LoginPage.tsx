@@ -5,37 +5,26 @@ import { AuthLayout } from '../layout/AuthLayout';
 import { useAuthStore } from '../../../store/auth/authStore';
 import { useGoogle } from '../hooks/useGoogle';
 import { useFormik } from 'formik';
-import { validateForm } from '../utils/validate-form';
+import { validateLoginForm } from '../utils/validate-forms';
+import { ShowError } from '../components/ShowError';
 
 export const LoginPage = () => {
 
   const emailInputId = useId();
   const passwordInputId = useId();
-  const { login, status, setChecking, checking } = useAuthStore();
+  const { login, status, setChecking, checking, message, clearMessage } = useAuthStore();
 
   const googleSignIn = useGoogle();
 
   const navigate = useNavigate();
 
-  
-  useEffect(() => {
-    if (status === "authorized") {
-      console.log("here");
-      navigate("/task", {
-        replace: true,
-      });
-    }
-  }, [status]);
-  
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    validate: validateForm,
+    validate: validateLoginForm,
     onSubmit: async(values) => {
-      console.log('hola');
-      // if (values.email.length === 0 || values.password.length === 0) return;
       
       try {
         setChecking();
@@ -45,6 +34,19 @@ export const LoginPage = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (status === "authorized") {
+      console.log("here");
+      navigate("/task", {
+        replace: true,
+      });
+    }
+  }, [status]);
+
+  useEffect(() => {
+    clearMessage();
+  }, [formik.values]);
   
   return (
     <AuthLayout title="Sign In">
@@ -66,7 +68,7 @@ export const LoginPage = () => {
           {
             (formik.errors.email && formik.touched.email) && 
             (
-              <div className="text-red-400">{formik.errors.email}</div>
+              <span className="text-red-400">{formik.errors.email}</span>
             )
           }
         </div>
@@ -86,10 +88,14 @@ export const LoginPage = () => {
            {
             (formik.errors.password && formik.touched.password) && 
             (
-              <div className="text-red-400">{formik.errors.password}</div>
+              <span className="text-red-400">{formik.errors.password}</span>
             )
           }
         </div>
+        {
+          message &&
+          ( <ShowError error={ message }/>)
+        }
         <button
           type='submit'
           onClick={() => formik.handleSubmit()}

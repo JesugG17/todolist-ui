@@ -1,7 +1,7 @@
 
 export interface AuthResponse {
     data: Info,
-    messages: string[];
+    message: string;
     code: number;
 }
 
