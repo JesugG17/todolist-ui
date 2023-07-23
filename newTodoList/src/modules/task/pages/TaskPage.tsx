@@ -1,89 +1,72 @@
-import { Completed, Cross } from '../../ui/Icons';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { useDrag } from '../hooks/useDrag';
 import { Navbar } from '../components/Navbar';
 import { ModalPhoto } from '../components/ModalPhoto';
-
-export interface Todo {
-  todoId: number;
-  description: string;
-  completed: boolean;
-}
+import { useTasksStore } from '../../../store/task/taskStore';
+import { useEffect, useState } from 'react';
+import { TaskItem } from '../components/TaskItem';
 
 export const TaskPage = () => {
 
   const isMobile = useIsMobile();
-  const { todos, setTodos, onDragStart, onDragOver,  onDrop } = useDrag();
+  const { tasks, onDragStart, onDragOver, onDrop } = useDrag();
+  const { initTasks, itemsLeft, addTask } = useTasksStore();
+  const [taskDescription, setTaskDescription] = useState('');
 
-  const handleCompleted = (todoId: number) => {
-    const newTodos = todos.map( todo => {
-      if (todo.todoId === todoId) {
-        return {
-          ...todo,
-          completed: !todo.completed
-        }
-      }
-      return todo;
-    });
-
-    setTodos(newTodos);
-  }
-
-
-  const itemsLeft = todos.filter( todo => !todo.completed).length;
+  useEffect(() => {
+    initTasks();
+  }, []);
 
   return (
     <div className="w-full min-h-screen bg-background flex flex-col">
       <Navbar />
       <ModalPhoto />
-      <header className="lg:h-1/4">
+      <header className="md:h-1/4">
         <img className="w-full lg:h-60" src={`/img/bg-${ isMobile ? 'mobile' : 'desktop'}-dark.jpg`} alt="" />
       </header>
-      <main className='absolute top-20 lg:top-24 w-3/4 md:w-2/4 lg:w-2/5  text-white self-center flex flex-col gap-5'>
-        <h2 className='text-2xl md:text-3xl'>T O D O</h2>
-        <input className='bg-secondary rounded p-4 text-xs md:text-sm focus:outline-none text-slate-400 placeholder:text-gray-600' type="text" placeholder='Create new todo...'/>
+      <main className='absolute top-20 md:top-24 w-3/4 md:w-2/4 lg:w-2/5  text-white self-center flex flex-col gap-5'>
+        <h2 className='text-2xl md:text-3xl'>T A S K S</h2>
+        <form onSubmit={(event) => {
+          if (taskDescription.length === 0) return;
+          event.preventDefault();
+          setTaskDescription('');
+          addTask(taskDescription);
+        }}>
+          <input 
+            className='bg-secondary w-full rounded p-4 text-xs md:text-sm lg:text-xl focus:outline-none text-slate-400 placeholder:text-gray-600' 
+            type="text" 
+            placeholder='Create new todo...'
+            value={taskDescription}
+            onChange={(event) => setTaskDescription(event.target.value)}
+          />
+        </form>
 
         <div className='bg-secondary rounded shadow-lg'>
           <ul className='divide-y-2 divide-slate-700'>
               {
-                todos.map( (todo, index) => (
-                  <li
-                    className='p-4 text-xs md:text-sm cursor-pointer w-full'
-                    key={todo.todoId}
-                    onDragStart={() => onDragStart(index)}
-                    onDragEnter={() => onDragOver(index)}
-                    onDragEnd={onDrop}
-                    draggable
-                  >
-                    <div className='flex justify-between'>
-                      <div className='flex gap-2 items-center'>
-                        <button onClick={() => handleCompleted(todo.todoId)} className='border-2  border-gray-500 border-opacity-30 rounded-full flex justify-center items-center w-5 h-5 lg:w-6 lg:h-6'>
-                            {
-                              todo.completed &&
-                              ( <Completed /> )
-                            }
-                        </button>
-                        <input 
-                          onClick={() => console.log('doble click')} 
-                          className={`bg-transparent text-slate-400 font-medium focus:outline-none select-all transition-all duration-200 ${ todo.completed && 'line-through opacity-25'}`} 
-                          type="text"
-                          disabled={ todo.completed } 
-                          value={todo.description}/>
-                      </div>
-                      <button>
-                        <Cross />
-                      </button>
-                    </div>
-                  </li>
+                tasks.length === 0 &&
+                (
+                  <span className='text-center p-10 block text-primary font-bold'>No tasks to show!</span>
+                )
+              }
+              {
+                tasks.map( (task, index) => (
+                  <TaskItem 
+                    task={ task }
+                    index={ index }
+                    onDragOver={ onDragOver }
+                    onDragStart={ onDragStart }
+                    onDrop={ onDrop }
+                  />
                 ))
               }
               <div className='p-4 text-xs md:text-sm text-gray-500 flex justify-between'>
                 <p>{ itemsLeft } items left</p>
-                <button>Clear completed</button>
+                <button className='hover:brightness-200 transition-all duration-200'>Clear completed</button>
               </div>
           </ul>
         </div>
-        <div className='bg-secondary p-3 text-primary font-bold flex justify-center gap-5'>
+        <div className='bg-secondary p-3 text-primary font-bold flex justify-center gap-5 rounded'>
           <button className='text-blue-500 font-bold shadow border-b-2 border-b-blue-500'>All</button>
           <button>Active</button>
           <button>Completed</button>

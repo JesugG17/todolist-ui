@@ -1,27 +1,9 @@
-import { useRef, useState } from 'react';
-import { Todo } from '../pages/TaskPage';
-const fakeTodos: Todo[] = [
-    {
-      todoId: 1,
-      description: 'Todo 1',
-      completed: false
-    },
-    {
-      todoId: 3,
-      description: 'Todo 2',
-      completed: false
-    },
-    {
-      todoId: 2,
-      description: 'Todo 3',
-      completed: false
-    },
-  
-  ]
+import { useRef } from 'react';
+import { useTasksStore } from '../../../store/task/taskStore';
 
 
 export const useDrag = () => {
-    const [todos, setTodos] = useState(fakeTodos);
+    const { tasks, setTasks } = useTasksStore();
     const dragStartItemRef = useRef<number | null>();
     const dragOverItemRef = useRef<number | null>();
 
@@ -34,21 +16,20 @@ export const useDrag = () => {
     }
 
     const onDrop = () => {
-        const copyTodos = [...todos];
+        const copyTask = [...tasks];
         const indexOverItem = dragOverItemRef.current as number;
         const indextStartItem = dragStartItemRef.current as number;
     
-        const dragStartContent = copyTodos[indextStartItem];
-        const dragEndContent = copyTodos[indexOverItem];
-        copyTodos.splice(indexOverItem, 1, dragStartContent);
-        copyTodos.splice(indextStartItem, 1, dragEndContent);
+        const dragStartContent = copyTask[indextStartItem];
+        const dragEndContent = copyTask[indexOverItem];
+        copyTask.splice(indexOverItem, 1, dragStartContent);
+        copyTask.splice(indextStartItem, 1, dragEndContent);
     
-        setTodos(copyTodos);
+        setTasks(copyTask);
     }
 
     return {
-        todos,
-        setTodos,
+        tasks,
         onDragStart,
         onDragOver,
         onDrop
