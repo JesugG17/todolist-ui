@@ -6,7 +6,6 @@ import { Cross } from "../../ui/Icons";
 export const ModalInfo = () => {
   const user = useAuthStore((state) => state.user);
   const { isModalOpen, closeModal } = useUIStore();
-  const [showImageUploader, setShowImageUploader] = useState(false);
 
   if (!isModalOpen) {
     return <></>;
@@ -27,8 +26,6 @@ export const ModalInfo = () => {
         <div className="flex flex-col gap-5">
             <picture className="relative flex flex-col gap-3 self-center p-10 border-b-2 border-b-gray-600">
               <img
-                onMouseEnter={() => setShowImageUploader(true)}
-                onMouseLeave={() => setShowImageUploader(false)}
                 className="rounded-full" 
                 src={user.photo} 
                 alt={`${user.userName} photo`} 
