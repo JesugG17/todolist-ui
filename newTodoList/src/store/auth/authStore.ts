@@ -5,12 +5,9 @@ import { toast } from "react-hot-toast";
 
 interface Store {
     status: string;
-    userName: string | null;
     user: User;
-    photo: string | null;
     checking: boolean;
     message: string | null;
-    code: number;
     login: (email: string, password: string) => Promise<void>;
     register: (userName: string, email: string, password: string) => Promise<void>
     googleSignIn: (token: string) => Promise<void>;
@@ -21,12 +18,9 @@ interface Store {
 
 export const useAuthStore = create<Store>((set) => ({
     status: 'non-authorized',
-    userName: null,
     user: {} as User,
-    photo: null,
     checking: false,
     message: null,
-    code: 0,
     login: async(email: string, password: string) => {
         const { data } = await authApi.post<AuthResponse>('/login', {
             email, password
@@ -62,7 +56,6 @@ export const useAuthStore = create<Store>((set) => ({
         set({
             checking: false,
             message: data.message,
-            code: data.code
         });
     },
     googleSignIn: async(code: string) => {
@@ -70,8 +63,6 @@ export const useAuthStore = create<Store>((set) => ({
             code
         });
 
-
-        console.log(data);
         if (data.code === 200) {
             localStorage.setItem('token', data.data.token);
             set({ 
@@ -88,12 +79,11 @@ export const useAuthStore = create<Store>((set) => ({
     },
     logout: () => {
 
+        localStorage.clear();
         set({
             status: 'not-authorized',
-            userName: null,
+            user: {} as User,
             message: null,
-            photo: null,
-            code: 0
         })
     },
     setChecking: (value: boolean = true) => {

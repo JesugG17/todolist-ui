@@ -5,12 +5,13 @@ import { ModalInfo } from '../components/ModalInfo';
 import { useTasksStore } from '../../../store/task/taskStore';
 import { useEffect, useState } from 'react';
 import { TaskItem } from '../components/TaskItem';
+import { handleDeleteTask } from '../utils/display-alert-message';
 
 export const TaskPage = () => {
 
   const isMobile = useIsMobile();
   const { tasks, onDragStart, onDragOver, onDrop } = useDrag();
-  const { initTasks, itemsLeft, addTask } = useTasksStore();
+  const { initTasks, itemsLeft, addTask, clearCompleted } = useTasksStore();
   const [taskDescription, setTaskDescription] = useState('');
 
   useEffect(() => {
@@ -62,7 +63,18 @@ export const TaskPage = () => {
               }
               <div className='p-4 text-xs md:text-sm text-gray-500 flex justify-between'>
                 <p>{ itemsLeft } items left</p>
-                <button className='hover:brightness-200 transition-all duration-200'>Clear completed</button>
+                <button
+                  onClick={async() =>  {
+                    const taskToDelete = tasks.length - itemsLeft;
+                    if (taskToDelete === 0) return;
+                    
+                    const isConfirmed = await handleDeleteTask(`Are you sure about delete this ${taskToDelete} tasks?`);
+                    if (isConfirmed) clearCompleted();
+                  }} 
+                  className='hover:brightness-200 transition-all duration-200'
+                >
+                    Clear completed
+                </button>
               </div>
           </ul>
         </div>

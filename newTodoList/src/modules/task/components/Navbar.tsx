@@ -6,7 +6,6 @@ export const Navbar = () => {
     const { logout, user } = useAuthStore();
     const openModal = useUIStore(state => state.openModal);
 
-    console.log(user);
   return (
     <nav className="bg-background w-full p-3 flex text-sm md:text-base justify-between items-center">
         <div className="flex gap-3 items-center">
