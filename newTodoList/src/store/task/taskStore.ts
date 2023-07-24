@@ -33,7 +33,7 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
 
     },
     addTask: async(description: string) => {
-        const { tasks } = get();
+        const { tasks, itemsLeft } = get();
         const { data } = await taskApi.post<TasksReponse>('/create', {
             description
         });
@@ -41,7 +41,7 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
         if (data.code === 201) {
             toast.success(data.message, {position: 'bottom-center'});
             const newTasks = [...tasks, data.data] as Task[];
-            set({ tasks: newTasks });
+            set({ tasks: newTasks, itemsLeft: itemsLeft + 1 });
         }
     },
     deleteTask: async(taskId: string) => {

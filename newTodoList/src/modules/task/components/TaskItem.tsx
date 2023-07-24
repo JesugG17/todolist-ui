@@ -3,6 +3,7 @@ import { useTasksStore } from '../../../store/task/taskStore';
 import { Completed, Cross } from '../../ui/Icons';
 import { Task } from '../types/task.interface';
 import { handleDeleteTask } from '../utils/display-alert-message';
+import { useMessage } from '../hooks/useMessage';
 
 export const TaskItem: FC<Props> = ({
     task, index, onDragStart, onDragOver, onDrop

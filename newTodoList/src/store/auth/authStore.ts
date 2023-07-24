@@ -84,7 +84,7 @@ export const useAuthStore = create<Store>()(persist(
     
             localStorage.clear();
             set({
-                status: 'not-authorized',
+                status: 'non-authorized',
                 user: {} as User,
                 message: null,
             })

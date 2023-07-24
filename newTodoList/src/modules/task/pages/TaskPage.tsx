@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { TaskItem } from '../components/TaskItem';
 import { handleDeleteTask } from '../utils/display-alert-message';
 import { Filters } from '../components/Filters';
+import { useMessage } from '../hooks/useMessage';
 
 export const TaskPage = () => {
 
@@ -14,16 +15,14 @@ export const TaskPage = () => {
   const { onDragStart, onDragOver, onDrop } = useDrag();
   const { tasks, initTasks, itemsLeft, addTask, clearCompleted } = useTasksStore();
   const [taskDescription, setTaskDescription] = useState('');
+  const message = useMessage();
 
   useEffect(() => {
     initTasks();
-    return () => { 
-      localStorage.removeItem('token');
-    }
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-background flex flex-col">
+    <div className="w-full h-screen bg-background flex flex-col">
       <Navbar />
       <ModalInfo />
       <header className="md:h-1/4">
@@ -46,7 +45,7 @@ export const TaskPage = () => {
           />
         </form>
 
-        <div className='bg-secondary rounded shadow-lg'>
+        <div className='bg-secondary max-h-96 overflow-y-scroll rounded shadow-lg'>
           <ul className='divide-y-2 divide-slate-700'>
               {
                 tasks.length === 0 &&
@@ -72,7 +71,7 @@ export const TaskPage = () => {
                     const taskToDelete = tasks.length - itemsLeft;
                     if (taskToDelete === 0) return;
                     
-                    const isConfirmed = await handleDeleteTask(`Are you sure about delete this ${taskToDelete} tasks?`);
+                    const isConfirmed = await handleDeleteTask(message);
                     if (isConfirmed) clearCompleted();
                   }} 
                   className='hover:brightness-200 font-medium transition-all duration-200'
