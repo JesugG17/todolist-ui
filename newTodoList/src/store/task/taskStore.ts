@@ -3,6 +3,7 @@ import { taskApi } from '../../api/taskApi';
 import { TasksReponse } from '../../modules/task/types/taskResponse';
 import { toast } from 'react-hot-toast';
 import { Task } from '../../modules/task/types/task.interface';
+import { persist } from 'zustand/middleware';
 
 interface Store {
     tasks: Task[],
@@ -18,7 +19,7 @@ interface Store {
     setIsLoading: () => void;
 }
 
-export const useTasksStore = create<Store>((set, get) => ({
+export const useTasksStore = create<Store>()(persist((set, get) => ({
     tasks: [],
     isLoading: false,
     itemsLeft: 0, 
@@ -26,7 +27,7 @@ export const useTasksStore = create<Store>((set, get) => ({
         const { data } = await taskApi.get<TasksReponse>('/all');
 
         if (data.code === 200) {
-            const itemsLeft = data.data.filter( task => task.completed ).length;
+            const itemsLeft = data.data.filter( task => !task.completed ).length;
             set({ tasks: data.data, isLoading: false, itemsLeft });
         }
 
@@ -36,8 +37,6 @@ export const useTasksStore = create<Store>((set, get) => ({
         const { data } = await taskApi.post<TasksReponse>('/create', {
             description
         });
-
-        console.log(data);
 
         if (data.code === 201) {
             toast.success(data.message, {position: 'bottom-center'});
@@ -65,6 +64,11 @@ export const useTasksStore = create<Store>((set, get) => ({
             ...copyTasks[index],
             completed: !copyTasks[index].completed
         };
+        const {data} = await taskApi.put<TasksReponse>(`/update/${taskId}`,  {
+            completed: copyTasks[index].completed 
+        });
+
+        console.log(data);
 
         const itemsLeft = copyTasks.filter( task => !task.completed).length;
 
@@ -104,4 +108,4 @@ export const useTasksStore = create<Store>((set, get) => ({
     setIsLoading: () => {
         set({ isLoading: true });
     }
-}));
+}), {name: 'taskStore'}));

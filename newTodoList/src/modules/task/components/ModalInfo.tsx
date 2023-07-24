@@ -1,9 +1,12 @@
+import { useRef } from "react";
 import { useAuthStore } from "../../../store/auth/authStore";
 import { useUIStore } from "../../../store/ui/uiStore";
-import { Cross } from "../../ui/Icons";
+import { Cross, UploadPhoto } from "../../ui/Icons";
 
 export const ModalInfo = () => {
+
   const user = useAuthStore((state) => state.user);
+  const uploadPhotoInputRef = useRef<HTMLInputElement>(null);
   const { isModalOpen, closeModal } = useUIStore();
 
   if (!isModalOpen) {
@@ -22,15 +25,25 @@ export const ModalInfo = () => {
           </button>
         </div>
         <div className="flex flex-col gap-5">
-          <picture className="relative flex flex-col gap-3 self-center p-10 border-b-2 border-b-gray-600">
+          <picture className="relative flex flex-col gap-3 self-center p-5 border-b-2 border-b-gray-600">
             <img
               className="rounded-full"
               src={user.photo}
               alt={`${user.userName} photo`}
             />
-            <button className="border-2 text-xs md:text-base border-white p-2 text-white font-medium hover:bg-white hover:text-black transition-all duration-200 rounded-md">
-              Upload image
+            <button
+              onClick={() => uploadPhotoInputRef.current?.click()} 
+              className="flex justify-center"
+            >
+              <UploadPhoto />
             </button>
+            <input
+              ref={uploadPhotoInputRef} 
+              className="hidden" 
+              type="file"
+              accept="image/jpg, image/png"
+
+            />
           </picture>
           <footer className="text-white text-xs md:text-base flex flex-col gap-5 p-5 ">
             <div className="flex flex-col gap-2 border-b-2 border-b-gray-700 mb-1">

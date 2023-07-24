@@ -10,7 +10,6 @@ export const TaskItem: FC<Props> = ({
 
     const { toggleTask, deleteTask } = useTasksStore();
 
-    
   return (
     <li
       className="p-4 text-xs md:text-sm cursor-pointer w-full"
@@ -24,7 +23,7 @@ export const TaskItem: FC<Props> = ({
         <div className="flex w-3/4 gap-2 items-center overflow-hidden">
           <button
             onClick={() => toggleTask(task.taskId)}
-            className="border-2  border-gray-500 border-opacity-30 rounded-full flex justify-center items-center w-5 h-5 lg:w-6 lg:h-6 xl:h-8 xl:w-8"
+            className="border-2  border-gray-500 border-opacity-30 rounded-full flex justify-center items-center w-5 h-5 lg:w-6 lg:h-6 xl:h-8 xl:w-8 hover:from-blue-300 hover:to-violet-500"
           >
             {task.completed && <Completed />}
           </button>

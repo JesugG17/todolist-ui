@@ -6,16 +6,20 @@ import { useTasksStore } from '../../../store/task/taskStore';
 import { useEffect, useState } from 'react';
 import { TaskItem } from '../components/TaskItem';
 import { handleDeleteTask } from '../utils/display-alert-message';
+import { Filters } from '../components/Filters';
 
 export const TaskPage = () => {
 
   const isMobile = useIsMobile();
-  const { tasks, onDragStart, onDragOver, onDrop } = useDrag();
-  const { initTasks, itemsLeft, addTask, clearCompleted } = useTasksStore();
+  const { onDragStart, onDragOver, onDrop } = useDrag();
+  const { tasks, initTasks, itemsLeft, addTask, clearCompleted } = useTasksStore();
   const [taskDescription, setTaskDescription] = useState('');
 
   useEffect(() => {
     initTasks();
+    return () => { 
+      localStorage.removeItem('token');
+    }
   }, []);
 
   return (
@@ -71,18 +75,14 @@ export const TaskPage = () => {
                     const isConfirmed = await handleDeleteTask(`Are you sure about delete this ${taskToDelete} tasks?`);
                     if (isConfirmed) clearCompleted();
                   }} 
-                  className='hover:brightness-200 transition-all duration-200'
+                  className='hover:brightness-200 font-medium transition-all duration-200'
                 >
                     Clear completed
                 </button>
               </div>
           </ul>
         </div>
-        <div className='bg-secondary p-3 text-primary font-bold flex justify-center gap-5 rounded'>
-          <button className='text-blue-500 font-bold shadow border-b-2 border-b-blue-500'>All</button>
-          <button>Active</button>
-          <button>Completed</button>
-        </div>
+       <Filters />
         <footer className='text-center text-gray-600'>
           <p>Drag and over to reorder list!</p>
         </footer>

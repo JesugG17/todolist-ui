@@ -19,7 +19,7 @@ export const Navbar = () => {
         </div>
         <button 
             onClick={ logout }
-            className="border-2 border-red-400 px-4 py-1 rounded text-white font-medium hover:bg-red-400 hover:text-background transition-all duration-200 shadow shadow-red-300"
+            className="border-2 border-orange-500 px-4 py-1 rounded text-white font-medium hover:bg-orange-400 hover:text-background transition-all duration-200 shadow shadow-red-300"
         >
             Sign Out
         </button>
