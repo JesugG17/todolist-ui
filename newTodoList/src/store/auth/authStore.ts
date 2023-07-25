@@ -103,8 +103,8 @@ export const useAuthStore = create<Store>()(persist(
 
             set({user: {
                 ...user,
-                photo: data.data
-            }})
+                photo: data.data,
+            }, checking: false})
 
         },
         setChecking: (value: boolean = true) => {

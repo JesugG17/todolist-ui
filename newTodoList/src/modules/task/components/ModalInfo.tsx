@@ -5,7 +5,7 @@ import { Cross, UploadPhoto } from "../../ui/Icons";
 
 export const ModalInfo = () => {
 
-  const { user, updateProfilePhoto } = useAuthStore();
+  const { user, updateProfilePhoto, setChecking, checking } = useAuthStore();
   const uploadPhotoInputRef = useRef<HTMLInputElement>(null);
   const { isModalOpen, closeModal } = useUIStore();
 
@@ -13,6 +13,7 @@ export const ModalInfo = () => {
     console.log(event.target.files);
     if (!event.target.files) return;
     const [ file ] = event.target.files;
+    setChecking();
     await updateProfilePhoto(file);
   }
 
@@ -31,15 +32,22 @@ export const ModalInfo = () => {
           </button>
         </div>
         <div className="flex flex-col gap-5">
-          <picture className="relative flex flex-col gap-3 self-center p-5 border-b-2 border-b-gray-600">
-            <img
-              className="rounded-full w-20 h-20"
-              src={user.photo}
-              alt={`${user.userName} photo`}
-            />
+          <picture className="relative flex flex-col gap-3 items-center self-center p-5 border-b-2 border-b-gray-600">
+            {
+              checking
+              ? (<img className='w-8 h-8 animate-spin invert' src="/img/loading.png" alt="Loading" />)
+              : (
+                <img
+                  className="rounded-full w-20 h-20"
+                  src={user.photo}
+                  alt={`${user.userName} photo`}
+                />
+              )
+            }
             <button
+              disabled={ checking }
               onClick={() => uploadPhotoInputRef.current?.click()} 
-              className="flex justify-center"
+              className="flex justify-center disabled:pointer-events-none"
             >
               <UploadPhoto />
             </button>
@@ -47,7 +55,7 @@ export const ModalInfo = () => {
               ref={uploadPhotoInputRef} 
               className="hidden" 
               type="file"
-              accept="image/jpga"
+              accept="image/jpg"
               onChange={handleChange}
 
             />
