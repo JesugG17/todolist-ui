@@ -13,7 +13,7 @@ export default {
         "background-light": "#262633",
         "test": "#3B3D52",
         "gradientCustom": 'linear-gradient(blue, violet)'
-      }
+      },
     },
   },
   plugins: [],

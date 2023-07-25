@@ -28,9 +28,9 @@ export const useAuthStore = create<Store>()(persist(
                 email, password
             });
             
-            const photo = data.data.user.photo ?? '/img/user.png';
-    
+            
             if (data.code === 200) {
+                const photo = data.data.user.photo ?? '/img/user.png';
                 toast.success('Login successfully')
                 localStorage.setItem('token', data.data.token);
                 set({ status: 'authorized', user: {...data.data.user, photo}, checking: false });

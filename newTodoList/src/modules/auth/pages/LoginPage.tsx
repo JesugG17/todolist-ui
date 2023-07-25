@@ -51,7 +51,7 @@ export const LoginPage = () => {
   return (
     <AuthLayout title="Sign In">
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
-        <div className="text-orange-400 flex flex-col gap-2">
+        <div className="text-violet-400 flex flex-col gap-2">
           <label htmlFor={emailInputId}>Email</label>
           <input
             id={emailInputId}
@@ -72,7 +72,7 @@ export const LoginPage = () => {
             )
           }
         </div>
-        <div className="text-orange-400 flex flex-col gap-2">
+        <div className="text-violet-400 flex flex-col gap-2">
           <label htmlFor={passwordInputId}>Password</label>
           <input
             id={passwordInputId}
@@ -100,7 +100,7 @@ export const LoginPage = () => {
           type='submit'
           onClick={() => formik.handleSubmit()}
           disabled={checking}
-          className="bg-orange-500 p-2 rounded text-white font-medium hover:bg-orange-400 transition-all duration-200 shadow-sm shadow-orange-400 disabled:pointer-events-none disabled:opacity-40"
+          className="bg-violet-500 p-2 rounded text-white font-medium hover:bg-violet-400 transition-all duration-200 shadow-sm shadow-violet-400 disabled:pointer-events-none disabled:opacity-40"
         >
           Sign up
         </button>

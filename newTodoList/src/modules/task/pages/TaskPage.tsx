@@ -29,7 +29,7 @@ export const TaskPage = () => {
         <img className="w-full lg:h-60" src={`/img/bg-${ isMobile ? 'mobile' : 'desktop'}-dark.jpg`} alt="" />
       </header>
       <main className='absolute top-20 md:top-24 w-3/4 md:w-2/4 lg:w-2/5  text-white self-center flex flex-col gap-5'>
-        <h2 className='text-2xl md:text-3xl'>T A S K S</h2>
+        <h2 className='text-2xl md:text-3xl font-bold'>T A S K S</h2>
         <form onSubmit={(event) => {
           if (taskDescription.length === 0) return;
           event.preventDefault();
@@ -54,8 +54,9 @@ export const TaskPage = () => {
                 )
               }
               {
-                tasks.map( (task, index) => (
+                tasks.map((task, index) => (
                   <TaskItem 
+                    key={task.taskId}
                     task={ task }
                     index={ index }
                     onDragOver={ onDragOver }

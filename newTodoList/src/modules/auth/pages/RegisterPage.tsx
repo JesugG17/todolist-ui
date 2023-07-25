@@ -45,7 +45,7 @@ export const RegisterPage = () => {
         onSubmit={formik.handleSubmit}
         className="flex flex-col gap-5"
       >
-        <div className="text-orange-400 flex flex-col gap-2">
+        <div className="text-violet-400 flex flex-col gap-2">
           <label htmlFor={userNameInputId}>Username</label>
           <input
             autoComplete='off'
@@ -66,7 +66,7 @@ export const RegisterPage = () => {
             )
           }
         </div>
-        <div className="text-orange-400 flex flex-col gap-2">
+        <div className="text-violet-400 flex flex-col gap-2">
           <label htmlFor={emailInputId}>Email</label>
           <input
             autoComplete='off'
@@ -87,7 +87,7 @@ export const RegisterPage = () => {
             )
           }
         </div>
-        <div className="text-orange-400 flex flex-col gap-2">
+        <div className="text-violet-400 flex flex-col gap-2">
           <label htmlFor={passwordInputId}>Password</label>
           <input
             autoComplete='off'
@@ -112,7 +112,7 @@ export const RegisterPage = () => {
           message &&
           ( <ShowError error={ message }/>)
         }
-        <button disabled={checking} className="bg-orange-500 p-2 text-white font-medium rounded hover:bg-orange-400 transition-all duration-200 mt-2 shadow-sm shadow-orange-400">Sign up!</button>
+        <button disabled={checking} className="bg-violet-500 p-2 text-white font-medium rounded hover:bg-violet-400 transition-all duration-200 mt-2 shadow-sm shadow-violet-400">Sign up!</button>
         <div className='text-slate-300 text-center text-xs flex flex-col gap-1 md:flex-row justify-center md:text-sm'>
           <p>You already have an account?</p>
           <Link className='text-blue-500 font-medium' to='/auth/login'>Sign in!</Link>
