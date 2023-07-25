@@ -17,5 +17,5 @@ export const useUIStore = create<Store>((set) => ({
         set({
             isModalOpen: false
         })
-    }
+    },
 }));

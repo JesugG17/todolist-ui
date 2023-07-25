@@ -3,6 +3,8 @@ import { authApi } from "../../api/authApi";
 import { AuthResponse } from "../../modules/auth/types/authResponse";
 import { toast } from "react-hot-toast";
 import { persist } from "zustand/middleware";
+import { uploadApi } from "../../api/uploadApi";
+import { UploadResponse } from "../../modules/task/types/uploadResponse";
 
 interface Store {
     status: string;
@@ -13,12 +15,13 @@ interface Store {
     register: (userName: string, email: string, password: string) => Promise<void>
     googleSignIn: (token: string) => Promise<void>;
     logout: () => void;
+    updateProfilePhoto: (file: File) => Promise<void>;
     setChecking: (value?: boolean) => void;
     clearMessage: () => void;
 }
 
 export const useAuthStore = create<Store>()(persist(
-    (set) => ({
+    (set, get) => ({
         status: 'non-authorized',
         user: {} as User,
         checking: false,
@@ -27,8 +30,7 @@ export const useAuthStore = create<Store>()(persist(
             const { data } = await authApi.post<AuthResponse>('/login', {
                 email, password
             });
-            
-            
+                        
             if (data.code === 200) {
                 const photo = data.data.user.photo ?? '/img/user.png';
                 toast.success('Login successfully')
@@ -66,7 +68,6 @@ export const useAuthStore = create<Store>()(persist(
             });
     
             if (data.code === 200) {
-                console.log(data.data.token);
                 localStorage.setItem('token', data.data.token);
                 set({ 
                     status: 'authorized', 
@@ -88,6 +89,23 @@ export const useAuthStore = create<Store>()(persist(
                 user: {} as User,
                 message: null,
             })
+        },
+        updateProfilePhoto: async(file: File) => {
+            const { user } = get();
+            const formData = new FormData();
+            formData.append('photo', file);
+            
+            const { data } = await uploadApi.post<UploadResponse>('/profile', formData);
+
+            if (data.code === 200) {
+                toast.success(data.message);
+            }
+
+            set({user: {
+                ...user,
+                photo: data.data
+            }})
+
         },
         setChecking: (value: boolean = true) => {
             set({ checking: value });
