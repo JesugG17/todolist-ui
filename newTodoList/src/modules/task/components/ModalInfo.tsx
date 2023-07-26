@@ -12,9 +12,6 @@ export const ModalInfo = () => {
   const [isInputActive, setIsInputActive] = useState(false);
   const [newUserName, setNewUserName] = useState(user.userName);
 
-
-  console.log(isInputActive);
-
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -96,12 +93,15 @@ export const ModalInfo = () => {
                   }
                 </button>
               </div>
-              <form onSubmit={(event) => {
-                event.preventDefault();
-                if (newUserName.length === 0) return;
-                updateUserName(newUserName);
-                setIsInputActive(false);
-              }}>
+              <form
+                className='flex justify-between' 
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (newUserName.length === 0) return;
+                  updateUserName(newUserName);
+                  setIsInputActive(false);
+                }}
+              >
                 <input
                   onFocus={(event) => event.target.select()}
                   ref={userNameInputRef}
@@ -111,6 +111,15 @@ export const ModalInfo = () => {
                   type="text" 
                   disabled={!isInputActive}
                 />
+                {
+                  isInputActive &&
+                  <button
+                    type='submit' 
+                    className='bg-violet-500 opacity-60 p-1 rounded font-medium hover:brightness-125 transition-all duration-200'
+                  >
+                    update
+                  </button>
+                }
               </form>
             </div>
             <button

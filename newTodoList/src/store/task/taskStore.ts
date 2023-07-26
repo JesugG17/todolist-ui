@@ -72,7 +72,32 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
 
     },
     updateTask: async(taskId: string, newDescription: string) => {
+        const { tasks } = get();
 
+        const { data } = await taskApi.put<TasksReponse>(`/update/${taskId}`, {
+            description: newDescription
+        });
+
+        const newTasks = tasks.map( task => {
+            if (task.taskId === taskId) {
+                return {
+                    ...task,
+                    description: newDescription
+                };
+            }
+            return task;
+        }); 
+
+        if (data.code === 200) {
+            toast.success(data.message);
+            set({
+                tasks: newTasks
+            })
+        }
+
+        if (data.code >= 400) {
+            toast.error(data.message);
+        }
     },
     clearCompleted: async() => {
         const { tasks, itemsLeft } = get();
