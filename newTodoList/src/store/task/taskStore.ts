@@ -45,13 +45,13 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
         }
     },
     deleteTask: async(taskId: string) => {
-        const { tasks } = get();
+        const { tasks, itemsLeft } = get();
         const { data } = await taskApi.delete<TasksReponse>(`/delete/${taskId}`);
 
         if (data.code === 200) {
             toast.success(data.message, {position: 'bottom-center'})
             const newTasks = tasks.filter( task => task.taskId !== taskId );
-            set({ tasks: newTasks })
+            set({ tasks: newTasks, itemsLeft: itemsLeft - 1 })
         }
         
     },
@@ -64,22 +64,18 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
             ...copyTasks[index],
             completed: !copyTasks[index].completed
         };
-        const {data} = await taskApi.put<TasksReponse>(`/update/${taskId}`,  {
+        await taskApi.put<TasksReponse>(`/update/${taskId}`,  {
             completed: copyTasks[index].completed 
         });
 
-        console.log(data);
-
-        const itemsLeft = copyTasks.filter( task => !task.completed).length;
-
-        set({ tasks: copyTasks, itemsLeft });
+        set({ tasks: copyTasks });
 
     },
     updateTask: async(taskId: string, newDescription: string) => {
 
     },
     clearCompleted: async() => {
-        const { tasks } = get();
+        const { tasks, itemsLeft } = get();
 
         const tasksIdsToDelete = tasks.filter( task => task.completed)
                                       .map( task => task.taskId);
@@ -94,10 +90,13 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
 
         console.log(data);
 
+        const newItemsLeft = itemsLeft - tasksIdsToDelete.length;
+
         if (data.code === 200) {
             toast.success(data.message, {position:  'bottom-center'});
             set({
-                tasks: newTasks
+                tasks: newTasks,
+                itemsLeft: newItemsLeft
             });
         }
         

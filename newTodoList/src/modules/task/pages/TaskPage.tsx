@@ -2,31 +2,24 @@ import { useIsMobile } from "../hooks/useIsMobile";
 import { useDrag } from "../hooks/useDrag";
 import { Navbar } from "../components/Navbar";
 import { ModalInfo } from "../components/ModalInfo";
-import { useTasksStore } from "../../../store/task/taskStore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TaskItem } from "../components/TaskItem";
 import { handleDeleteTask } from "../utils/display-alert-message";
 import { Filters } from "../components/Filters";
 import { useMessage } from "../hooks/useMessage";
 import { useUIStore } from "../../../store/ui/uiStore";
+import { useTasks } from "../hooks/useTasks";
 
 export const TaskPage = () => {
   const isMobile = useIsMobile();
   const { onDragStart, onDragOver, onDrop } = useDrag();
-  const { 
-      tasks, 
-      initTasks, 
-      itemsLeft, 
-      addTask, 
-      clearCompleted 
-    } = useTasksStore();
+  
+  const { tasks, addTask, clearCompleted, itemsLeft, setFilter, filter } = useTasks();
+
   const isModalOpen = useUIStore(state => state.isModalOpen);
   const message = useMessage();
   const [taskDescription, setTaskDescription] = useState("");
 
-  useEffect(() => {
-    initTasks();
-  }, []);
 
   return (
     <div className="w-full h-screen bg-background flex flex-col">
@@ -82,8 +75,7 @@ export const TaskPage = () => {
               <p>{itemsLeft} items left</p>
               <button
                 onClick={async () => {
-                  const taskToDelete = tasks.length - itemsLeft;
-                  if (taskToDelete === 0) return;
+                  if (tasks.length === 0) return;
 
                   const isConfirmed = await handleDeleteTask(message);
                   if (isConfirmed) clearCompleted();
@@ -95,7 +87,10 @@ export const TaskPage = () => {
             </div>
           </ul>
         </div>
-        <Filters />
+        <Filters 
+          setFilter={ setFilter }
+          filter={ filter }
+        />
         <footer className="text-center text-gray-600">
           <p>Drag and over to reorder list!</p>
         </footer>
