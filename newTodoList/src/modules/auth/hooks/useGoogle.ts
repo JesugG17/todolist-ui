@@ -1,10 +1,10 @@
 import { useGoogleLogin } from '@react-oauth/google'
-import { useAuthStore } from '../../../store/auth/authStore';
+import { useAuthUserStore } from '../../../store/auth/authUserStore';
 import { toast } from 'react-hot-toast';
 
 export const useGoogle = () => {
 
-    const { googleSignIn, setChecking } = useAuthStore();
+    const { googleSignIn, setChecking } = useAuthUserStore();
 
     const login = useGoogleLogin({
         flow: 'auth-code',

@@ -2,7 +2,7 @@ import { useId, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Google } from "../../ui/Icons";
 import { AuthLayout } from "../layout/AuthLayout";
-import { useAuthStore } from "../../../store/auth/authStore";
+import { useAuthUserStore } from "../../../store/auth/authUserStore";
 import { useGoogle } from "../hooks/useGoogle";
 import { useFormik } from "formik";
 import { validateLoginForm } from "../utils/validate-forms";
@@ -12,7 +12,7 @@ export const LoginPage = () => {
   const emailInputId = useId();
   const passwordInputId = useId();
   const { login, status, setChecking, checking, message, clearMessage } =
-    useAuthStore();
+    useAuthUserStore();
 
   const googleSignIn = useGoogle();
 

@@ -27,3 +27,9 @@ export const UploadPhoto = () => {
     </picture>
   )
 }
+
+export const UpdateIcon = () => {
+  return (
+    <img className="w-6 h-6" src="/img/pencil.png" alt="Update Icon" />
+  )
+}

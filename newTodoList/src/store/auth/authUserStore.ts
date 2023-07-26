@@ -5,6 +5,8 @@ import { toast } from "react-hot-toast";
 import { persist } from "zustand/middleware";
 import { uploadApi } from "../../api/uploadApi";
 import { UploadResponse } from "../../modules/task/types/uploadResponse";
+import { userApi } from "../../api/userApi";
+import { UserResponse } from "../../modules/task/types/userResponse";
 
 interface Store {
   status: string;
@@ -20,11 +22,13 @@ interface Store {
   googleSignIn: (token: string) => Promise<void>;
   logout: () => void;
   updateProfilePhoto: (file: File) => Promise<void>;
+  deleteProfile: () => Promise<void>
+  updateUserName: (newUserName: string) => Promise<void>; 
   setChecking: (value?: boolean) => void;
   clearMessage: () => void;
 }
 
-export const useAuthStore = create<Store>()(
+export const useAuthUserStore = create<Store>()(
   persist(
     (set, get) => ({
       status: "non-authorized",
@@ -126,6 +130,29 @@ export const useAuthStore = create<Store>()(
           set({checking: false});
         }
 
+      },
+      deleteProfile: async() => {
+
+        const { data } = await userApi.delete<UserResponse>('/delete');
+
+        console.log(data);
+
+        if (data.code === 200) {
+          toast.success(data.message);
+          localStorage.removeItem('token');
+          set({
+            user: {} as User,
+            status: 'non-authorized'
+          });
+        }
+
+        if (data.code >= 400) {
+          toast.error(data.message);
+        }
+
+      },
+      updateUserName: async(newUserName: string) => {
+        console.log(newUserName);
       },
       setChecking: (value: boolean = true) => {
         set({ checking: value });

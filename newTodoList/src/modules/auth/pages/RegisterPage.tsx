@@ -2,7 +2,7 @@ import { useId, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout"
-import { useAuthStore } from '../../../store/auth/authStore';
+import { useAuthUserStore } from '../../../store/auth/authUserStore';
 import { validateRegisterForm } from '../utils/validate-forms';
 import { ShowError } from '../components/ShowError';
 
@@ -12,7 +12,7 @@ export const RegisterPage = () => {
   const emailInputId = useId();
   const passwordInputId = useId();
 
-  const { register, setChecking, checking, message, clearMessage } = useAuthStore();
+  const { register, setChecking, checking, message, clearMessage } = useAuthUserStore();
   const navigate = useNavigate();
 
   const formik = useFormik({

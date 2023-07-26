@@ -1,8 +1,8 @@
-import { useAuthStore } from "../../../store/auth/authStore";
+import { useAuthUserStore } from "../../../store/auth/authUserStore";
 import { useUIStore } from "../../../store/ui/uiStore";
 
 export const Navbar = () => {
-  const { logout, user } = useAuthStore();
+  const { logout, user } = useAuthUserStore();
   const openModal = useUIStore((state) => state.openModal);
 
   return (
