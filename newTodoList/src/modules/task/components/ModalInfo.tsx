@@ -1,14 +1,19 @@
-import { useRef, ChangeEvent, useEffect } from "react";
+import { useRef, ChangeEvent, useEffect, useState } from 'react';
 import { useAuthUserStore } from "../../../store/auth/authUserStore";
 import { useUIStore } from "../../../store/ui/uiStore";
-import { Cross, UpdateIcon, UploadPhoto } from "../../ui/Icons";
+import { CancelUpdateIcon, Cross, UpdateIcon, UploadPhoto } from "../../ui/Icons";
 import { handleDeleteUser } from "../utils/display-alert-message";
 
 export const ModalInfo = () => {
-  const { user, updateProfilePhoto, setChecking, checking, deleteProfile } =
-    useAuthUserStore();
+  const { user, updateProfilePhoto, setChecking, checking, deleteProfile, updateUserName } = useAuthUserStore();
+  const { closeModal } = useUIStore();
   const uploadPhotoInputRef = useRef<HTMLInputElement>(null);
-  const { isModalOpen, closeModal } = useUIStore();
+  const userNameInputRef = useRef<HTMLInputElement>(null);
+  const [isInputActive, setIsInputActive] = useState(false);
+  const [newUserName, setNewUserName] = useState(user.userName);
+
+
+  console.log(isInputActive);
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -21,9 +26,13 @@ export const ModalInfo = () => {
   useEffect(() => {
     setChecking(false);
   }, []);
-  if (!isModalOpen) {
-    return <></>;
-  }
+
+  useEffect(() => {
+    if (isInputActive) userNameInputRef.current?.focus();
+  }, [isInputActive]);
+
+
+  
   return (
     <div className="absolute w-full min-h-screen bg-background-light bg-opacity-60 flex items-center justify-center z-40">
       <div className="bg-background w-3/4 flex flex-col md:w-2/5 xl:w-1/4 h-2/4 p-5 rounded-md">
@@ -73,11 +82,36 @@ export const ModalInfo = () => {
             <div className="flex flex-col gap-2 border-b-2 border-b-gray-700 mb-1">
               <div className="flex gap-3 items-center">
                 <strong className="text-violet-500">Username</strong>
-                <button className="hover:brightness-125 transition-all duration-200">
-                  <UpdateIcon />
+                <button
+                  onClick={() => {
+                    setIsInputActive(!isInputActive);
+                    setNewUserName(user.userName);
+                  }} 
+                  className="hover:brightness-125 transition-all duration-200"
+                >
+                  {
+                    isInputActive
+                    ? <CancelUpdateIcon />
+                    : <UpdateIcon />
+                  }
                 </button>
               </div>
-              <p>{user.userName}</p>
+              <form onSubmit={(event) => {
+                event.preventDefault();
+                if (newUserName.length === 0) return;
+                updateUserName(newUserName);
+                setIsInputActive(false);
+              }}>
+                <input
+                  onFocus={(event) => event.target.select()}
+                  ref={userNameInputRef}
+                  className="bg-transparent focus:outline-none" 
+                  value={newUserName}
+                  onChange={(event) => setNewUserName(event.target.value)}
+                  type="text" 
+                  disabled={!isInputActive}
+                />
+              </form>
             </div>
             <button
               onClick={async () => {

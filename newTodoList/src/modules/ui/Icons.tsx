@@ -33,3 +33,13 @@ export const UpdateIcon = () => {
     <img className="w-6 h-6" src="/img/pencil.png" alt="Update Icon" />
   )
 }
+
+export const CancelUpdateIcon = () => {
+  return (
+    <img
+      className="w-5 h-5" 
+      src="/img/cancel.png" 
+      alt="Cancel Icon" 
+    />
+  )
+}

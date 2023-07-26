@@ -8,6 +8,7 @@ import { TaskItem } from "../components/TaskItem";
 import { handleDeleteTask } from "../utils/display-alert-message";
 import { Filters } from "../components/Filters";
 import { useMessage } from "../hooks/useMessage";
+import { useUIStore } from "../../../store/ui/uiStore";
 
 export const TaskPage = () => {
   const isMobile = useIsMobile();
@@ -19,8 +20,9 @@ export const TaskPage = () => {
       addTask, 
       clearCompleted 
     } = useTasksStore();
-  const [taskDescription, setTaskDescription] = useState("");
+  const isModalOpen = useUIStore(state => state.isModalOpen);
   const message = useMessage();
+  const [taskDescription, setTaskDescription] = useState("");
 
   useEffect(() => {
     initTasks();
@@ -29,7 +31,10 @@ export const TaskPage = () => {
   return (
     <div className="w-full h-screen bg-background flex flex-col">
       <Navbar />
-      <ModalInfo />
+      {
+        isModalOpen &&
+        (<ModalInfo />)
+      }
       <header className="md:h-1/4">
         <img
           className="w-full lg:h-60"

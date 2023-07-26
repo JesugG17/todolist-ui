@@ -135,8 +135,6 @@ export const useAuthUserStore = create<Store>()(
 
         const { data } = await userApi.delete<UserResponse>('/delete');
 
-        console.log(data);
-
         if (data.code === 200) {
           toast.success(data.message);
           localStorage.removeItem('token');
@@ -152,7 +150,27 @@ export const useAuthUserStore = create<Store>()(
 
       },
       updateUserName: async(newUserName: string) => {
-        console.log(newUserName);
+        const { user } = get();
+
+        const { data } = await userApi.put<UserResponse>('/update', {
+          userName: newUserName
+        });
+
+        console.log(data);
+
+        if (data.code === 200) {
+          toast.success(data.message);
+          set({
+            user: {
+              ...user,
+              userName: data.data.userName
+            }
+          })
+        }
+
+        if (data.code >= 400) {
+          toast.error(data.message);
+        }
       },
       setChecking: (value: boolean = true) => {
         set({ checking: value });
