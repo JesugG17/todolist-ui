@@ -1,18 +1,18 @@
-import { useId, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Google } from '../../ui/Icons';
-import { AuthLayout } from '../layout/AuthLayout';
-import { useAuthStore } from '../../../store/auth/authStore';
-import { useGoogle } from '../hooks/useGoogle';
-import { useFormik } from 'formik';
-import { validateLoginForm } from '../utils/validate-forms';
-import { ShowError } from '../components/ShowError';
+import { useId, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Google } from "../../ui/Icons";
+import { AuthLayout } from "../layout/AuthLayout";
+import { useAuthStore } from "../../../store/auth/authStore";
+import { useGoogle } from "../hooks/useGoogle";
+import { useFormik } from "formik";
+import { validateLoginForm } from "../utils/validate-forms";
+import { ShowError } from "../components/ShowError";
 
 export const LoginPage = () => {
-
   const emailInputId = useId();
   const passwordInputId = useId();
-  const { login, status, setChecking, checking, message, clearMessage } = useAuthStore();
+  const { login, status, setChecking, checking, message, clearMessage } =
+    useAuthStore();
 
   const googleSignIn = useGoogle();
 
@@ -24,8 +24,7 @@ export const LoginPage = () => {
       password: "",
     },
     validate: validateLoginForm,
-    onSubmit: async(values) => {
-      
+    onSubmit: async (values) => {
       try {
         setChecking();
         await login(values.email, values.password);
@@ -47,7 +46,7 @@ export const LoginPage = () => {
   useEffect(() => {
     clearMessage();
   }, [formik.values]);
-  
+
   return (
     <AuthLayout title="Sign In">
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
@@ -57,7 +56,10 @@ export const LoginPage = () => {
             id={emailInputId}
             autoComplete="off"
             disabled={checking}
-            className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${ formik.errors.email && 'border-2 border-red-400 focus:outline-red-400'}`}
+            className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${
+              formik.errors.email &&
+              "border-2 border-red-400 focus:outline-red-400"
+            }`}
             placeholder="example@gmail.com"
             type="text"
             name="email"
@@ -65,19 +67,19 @@ export const LoginPage = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {
-            (formik.errors.email && formik.touched.email) && 
-            (
-              <span className="text-red-400">{formik.errors.email}</span>
-            )
-          }
+          {formik.errors.email && formik.touched.email && (
+            <span className="text-red-400">{formik.errors.email}</span>
+          )}
         </div>
         <div className="text-violet-400 flex flex-col gap-2">
           <label htmlFor={passwordInputId}>Password</label>
           <input
             id={passwordInputId}
             disabled={checking}
-            className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${ formik.errors.password && 'border-2 border-red-400 focus:outline-red-400'} `}
+            className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${
+              formik.errors.password &&
+              "border-2 border-red-400 focus:outline-red-400"
+            } `}
             placeholder="Enter password"
             type="password"
             name="password"
@@ -85,19 +87,13 @@ export const LoginPage = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-           {
-            (formik.errors.password && formik.touched.password) && 
-            (
-              <span className="text-red-400">{formik.errors.password}</span>
-            )
-          }
+          {formik.errors.password && formik.touched.password && (
+            <span className="text-red-400">{formik.errors.password}</span>
+          )}
         </div>
-        {
-          message &&
-          ( <ShowError error={ message }/>)
-        }
+        {message && <ShowError error={message} />}
         <button
-          type='submit'
+          type="submit"
           onClick={() => formik.handleSubmit()}
           disabled={checking}
           className="bg-violet-500 p-2 rounded text-white font-medium hover:bg-violet-400 transition-all duration-200 shadow-sm shadow-violet-400 disabled:pointer-events-none disabled:opacity-40"
@@ -126,7 +122,6 @@ export const LoginPage = () => {
           </Link>
         </div>
       </form>
-
     </AuthLayout>
   );
 };

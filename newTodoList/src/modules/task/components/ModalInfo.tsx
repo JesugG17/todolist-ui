@@ -1,22 +1,24 @@
-import { useRef, ChangeEvent } from 'react';
+import { useRef, ChangeEvent, useEffect } from "react";
 import { useAuthStore } from "../../../store/auth/authStore";
 import { useUIStore } from "../../../store/ui/uiStore";
 import { Cross, UploadPhoto } from "../../ui/Icons";
 
 export const ModalInfo = () => {
-
   const { user, updateProfilePhoto, setChecking, checking } = useAuthStore();
   const uploadPhotoInputRef = useRef<HTMLInputElement>(null);
   const { isModalOpen, closeModal } = useUIStore();
 
-  const handleChange = async(event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files);
-    if (!event.target.files) return;
-    const [ file ] = event.target.files;
+  const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    const [file] = files;
     setChecking();
     await updateProfilePhoto(file);
-  }
+  };
 
+  useEffect(() => {
+    setChecking(false);
+  }, [])
   if (!isModalOpen) {
     return <></>;
   }
@@ -25,7 +27,7 @@ export const ModalInfo = () => {
       <div className="bg-background w-3/4 flex flex-col md:w-2/5 xl:w-1/5 h-2/4 p-5 rounded-md">
         <div className="flex">
           <h3 className="text-center text-white font-medium text-2xl flex-1">
-            INFO
+            PROFILE
           </h3>
           <button onClick={closeModal}>
             <Cross />
@@ -33,31 +35,32 @@ export const ModalInfo = () => {
         </div>
         <div className="flex flex-col gap-5">
           <picture className="relative flex flex-col gap-3 items-center self-center p-5 border-b-2 border-b-gray-600">
-            {
-              checking
-              ? (<img className='w-8 h-8 animate-spin invert' src="/img/loading.png" alt="Loading" />)
-              : (
-                <img
-                  className="rounded-full w-20 h-20"
-                  src={user.photo}
-                  alt={`${user.userName} photo`}
-                />
-              )
-            }
+            {checking ? (
+              <img
+                className="w-8 h-8 animate-spin invert"
+                src="/img/loading.png"
+                alt="Loading"
+              />
+            ) : (
+              <img
+                className="rounded-full w-20 h-20"
+                src={user.photo}
+                alt={`${user.userName} photo`}
+              />
+            )}
             <button
-              disabled={ checking }
-              onClick={() => uploadPhotoInputRef.current?.click()} 
+              disabled={checking}
+              onClick={() => uploadPhotoInputRef.current?.click()}
               className="flex justify-center disabled:pointer-events-none"
             >
               <UploadPhoto />
             </button>
             <input
-              ref={uploadPhotoInputRef} 
-              className="hidden" 
+              ref={uploadPhotoInputRef}
+              className="hidden"
               type="file"
-              accept="image/jpg"
+              accept="image/*"
               onChange={handleChange}
-
             />
           </picture>
           <footer className="text-white text-xs md:text-base flex flex-col gap-5 p-5 ">
