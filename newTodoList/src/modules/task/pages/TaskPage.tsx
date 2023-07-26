@@ -35,7 +35,7 @@ export const TaskPage = () => {
           alt=""
         />
       </header>
-      <main className="absolute top-20 md:top-24 w-3/4 md:w-2/4 lg:w-2/5  text-white self-center flex flex-col gap-5">
+      <main className="absolute top-20 md:top-24 w-4/5 md:w-2/4 lg:w-2/5  text-white self-center flex flex-col gap-5">
         <h2 className="text-2xl md:text-3xl font-bold">T A S K S</h2>
         <form
           onSubmit={(event) => {

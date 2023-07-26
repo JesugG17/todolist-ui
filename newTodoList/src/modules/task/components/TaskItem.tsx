@@ -43,21 +43,24 @@ export const TaskItem: FC<Props> = ({
       onDragEnd={onDrop}
       draggable
     >
-      <div className="flex justify-between">
-        <div className="flex w-3/4 gap-2 items-center overflow-hidden">
+      <div className="flex">
+        <div className="flex flex-1 gap-2 items-center overflow-hidden">
           <button
             onClick={() => toggleTask(task.taskId)}
             className="border-2  border-gray-500 border-opacity-30 rounded-full flex justify-center items-center w-5 h-5 lg:w-6 lg:h-6 xl:h-8 xl:w-8 hover:from-blue-300 hover:to-violet-500"
           >
             {task.completed && <Completed />}
           </button>
-          <form onSubmit={(event) => {
-            event.preventDefault();
-            if (taskDescription.length === 0) return;
-            updateTask(task.taskId, taskDescription);
-          }}>
+          <form
+            className='flex-1' 
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (taskDescription.length === 0) return;
+              updateTask(task.taskId, taskDescription);
+            }}
+          >
             <input
-              className={`bg-transparent resize-none w-full text-xs md:text-lg lg:text-xl text-slate-400 font-medium focus:outline-none cursor-pointer transition-all duration-200 ${task.completed && "line-through opacity-25"}`}
+              className={`bg-transparent w-full resize-none text-xs md:text-lg text-slate-400 font-medium focus:outline-none cursor-pointer transition-all duration-200 ${task.completed && "line-through opacity-25"}`}
               ref={taskDescriptionInputRef}
               value={taskDescription}
               disabled={task.completed}
