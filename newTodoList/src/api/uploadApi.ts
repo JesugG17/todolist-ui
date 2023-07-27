@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const baseURL = `${import.meta.env.VITE_API_URL}/upload`;
+
 export const uploadApi = axios.create({
-    baseURL: 'http://localhost:8080/api/upload',
+    baseURL,
     headers: {
         'Content-Type': 'multipart/form-data'
     },

@@ -1,8 +1,9 @@
 import axios from "axios";
 
+const baseURL = `${import.meta.env.VITE_API_URL}/task`;
 
 export const taskApi = axios.create({
-    baseURL: 'http://localhost:8080/api/task'
+    baseURL
 });
 
 taskApi.interceptors.request.use((config) => {
