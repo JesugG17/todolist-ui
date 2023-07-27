@@ -50,16 +50,17 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
 
         if (data.code === 200) {
             toast.success(data.message, {position: 'bottom-center'})
-            const newTasks = tasks.filter( task => task.taskId !== taskId );
+            const newTasks = tasks.filter( task => task.taskid !== taskId );
             set({ tasks: newTasks, itemsLeft: itemsLeft - 1 })
         }
         
     },
     toggleTask: async(taskId: string)  => {
         const { tasks } = get();
+        console.log(taskId);
 
         const copyTasks = [...tasks];
-        const index = copyTasks.findIndex( task => task.taskId === taskId );
+        const index = copyTasks.findIndex( task => task.taskid === taskId );
         copyTasks[index] = {
             ...copyTasks[index],
             completed: !copyTasks[index].completed
@@ -79,7 +80,7 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
         });
 
         const newTasks = tasks.map( task => {
-            if (task.taskId === taskId) {
+            if (task.taskid === taskId) {
                 return {
                     ...task,
                     description: newDescription
@@ -103,7 +104,7 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
         const { tasks, itemsLeft } = get();
 
         const tasksIdsToDelete = tasks.filter( task => task.completed)
-                                      .map( task => task.taskId);
+                                      .map( task => task.taskid);
         
         if (tasksIdsToDelete.length === 0) return;
 

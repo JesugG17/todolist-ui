@@ -37,7 +37,7 @@ export const TaskItem: FC<Props> = ({
   return (
     <li
       className="p-4 text-xs md:text-sm cursor-pointer w-full"
-      key={task.taskId}
+      key={task.taskid}
       onDragStart={() => onDragStart(index)}
       onDragEnter={() => onDragOver(index)}
       onDragEnd={onDrop}
@@ -46,7 +46,7 @@ export const TaskItem: FC<Props> = ({
       <div className="flex">
         <div className="flex flex-1 gap-2 items-center overflow-hidden">
           <button
-            onClick={() => toggleTask(task.taskId)}
+            onClick={() => toggleTask(task.taskid)}
             className="border-2  border-gray-500 border-opacity-30 rounded-full flex justify-center items-center w-5 h-5 lg:w-6 lg:h-6 xl:h-8 xl:w-8 hover:from-blue-300 hover:to-violet-500"
           >
             {task.completed && <Completed />}
@@ -56,7 +56,7 @@ export const TaskItem: FC<Props> = ({
             onSubmit={(event) => {
               event.preventDefault();
               if (taskDescription.length === 0) return;
-              updateTask(task.taskId, taskDescription);
+              updateTask(task.taskid, taskDescription);
             }}
           >
             <input
@@ -73,7 +73,7 @@ export const TaskItem: FC<Props> = ({
         </div>
         <button onClick={async() => {
           const isConfirmed = await handleDeleteTask('Are you sure about delete this task?');
-          if (isConfirmed) deleteTask(task.taskId);
+          if (isConfirmed) deleteTask(task.taskid);
         }}>
           <Cross />
         </button>
