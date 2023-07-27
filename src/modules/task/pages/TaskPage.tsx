@@ -63,7 +63,7 @@ export const TaskPage = () => {
             )}
             {tasks.map((task, index) => (
               <TaskItem
-                key={task.taskId}
+                key={task.taskid}
                 task={task}
                 index={index}
                 onDragOver={onDragOver}
