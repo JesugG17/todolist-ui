@@ -98,7 +98,7 @@ export const LoginPage = () => {
           disabled={checking}
           className="bg-violet-500 p-2 rounded text-white font-medium hover:bg-violet-400 transition-all duration-200 shadow-sm shadow-violet-400 disabled:pointer-events-none disabled:opacity-40"
         >
-          Sign up
+          Sign in
         </button>
         <h4 className="text-gray-500 text-center flex items-center before:content-[''] before:mr-4 before:flex-1 before:border-b-2 before:border-gray-500 after:content-[''] after:flex-1 after:border-b-2 after:border-gray-500 after:ml-4 ">
           OR
