@@ -75,7 +75,8 @@ export const TaskPage = () => {
               <p>{itemsLeft} items left</p>
               <button
                 onClick={async () => {
-                  if (tasks.length === 0) return;
+                  const tasksCompleted = tasks.filter( task => task.completed).length;
+                  if (tasks.length === 0 || tasksCompleted === 0) return;
 
                   const isConfirmed = await handleDeleteTask(message);
                   if (isConfirmed) clearCompleted();
