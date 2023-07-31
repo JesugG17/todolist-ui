@@ -41,7 +41,6 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (status === "authorized") {
-      console.log("here");
       navigate("/task", {
         replace: true,
       });
