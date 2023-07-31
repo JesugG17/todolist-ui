@@ -73,7 +73,7 @@ export const RegisterPage = () => {
             id={emailInputId}
             className={`bg-primary p-2 text-sm rounded text-white ${ formik.errors.email && 'border-2 border-red-400 focus:outline-red-400'}`}
             placeholder="example@gmail.com" 
-            type="text"
+            type="email"
             name='email'
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -112,7 +112,7 @@ export const RegisterPage = () => {
           message &&
           ( <ShowError error={ message }/>)
         }
-        <button disabled={checking} className="bg-violet-500 p-2 text-white font-medium rounded hover:bg-violet-400 transition-all duration-200 mt-2 shadow-sm shadow-violet-400">Sign up!</button>
+        <button disabled={checking} className="bg-violet-500 p-2 text-white font-medium rounded hover:brightness-105 transition-all duration-200 mt-2 shadow-sm shadow-violet-400">Sign up!</button>
         <div className='text-slate-300 text-center text-xs flex flex-col gap-1 md:flex-row justify-center md:text-sm'>
           <p>You already have an account?</p>
           <Link className='text-blue-500 font-medium' to='/auth/login'>Sign in!</Link>

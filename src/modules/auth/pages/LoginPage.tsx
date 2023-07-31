@@ -11,12 +11,17 @@ import { ShowError } from "../components/ShowError";
 export const LoginPage = () => {
   const emailInputId = useId();
   const passwordInputId = useId();
-  const { login, status, setChecking, checking, message, clearMessage } =
-    useAuthUserStore();
+  const { login, 
+          setChecking,  
+          clearMessage, 
+          status,
+          checking, 
+          message 
+  } = useAuthUserStore();
 
   const googleSignIn = useGoogle();
-
   const navigate = useNavigate();
+
 
   const formik = useFormik({
     initialValues: {
@@ -61,7 +66,7 @@ export const LoginPage = () => {
               "border-2 border-red-400 focus:outline-red-400"
             }`}
             placeholder="example@gmail.com"
-            type="text"
+            type="email"
             name="email"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -72,7 +77,15 @@ export const LoginPage = () => {
           )}
         </div>
         <div className="text-violet-400 flex flex-col gap-2">
-          <label htmlFor={passwordInputId}>Password</label>
+          <div className="flex justify-between">
+            <label htmlFor={passwordInputId}>Password</label>
+            <Link
+              to='/auth/reset-password' 
+              className="text-blue-600 underline hover:brightness-125 transition-all duration-200"
+            >
+              Reset password
+            </Link>
+          </div>
           <input
             id={passwordInputId}
             disabled={checking}
@@ -96,7 +109,7 @@ export const LoginPage = () => {
           type="submit"
           onClick={() => formik.handleSubmit()}
           disabled={checking}
-          className="bg-violet-500 p-2 rounded text-white font-medium hover:bg-violet-400 transition-all duration-200 shadow-sm shadow-violet-400 disabled:pointer-events-none disabled:opacity-40"
+          className="bg-violet-500 p-2 rounded text-white font-medium hover:brightness-105 transition-all duration-200 shadow-sm shadow-violet-400 disabled:pointer-events-none disabled:opacity-40"
         >
           Sign in
         </button>

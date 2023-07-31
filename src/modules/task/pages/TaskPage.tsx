@@ -1,7 +1,7 @@
 import { useIsMobile } from "../hooks/useIsMobile";
 import { useDrag } from "../hooks/useDrag";
 import { Navbar } from "../components/Navbar";
-import { ModalInfo } from "../components/ModalInfo";
+import { ModalInfo } from "../components/ModalProfile";
 import { useState } from "react";
 import { TaskItem } from "../components/TaskItem";
 import { handleDeleteTask } from "../utils/display-alert-message";
@@ -11,13 +11,14 @@ import { useUIStore } from "../../../store/ui/uiStore";
 import { useTasks } from "../hooks/useTasks";
 
 export const TaskPage = () => {
-  const isMobile = useIsMobile();
-  const { onDragStart, onDragOver, onDrop } = useDrag();
-  
-  const { tasks, addTask, clearCompleted, itemsLeft, setFilter, filter } = useTasks();
 
+  
+  const { onDragStart, onDragOver, onDrop } = useDrag();
+  const { tasks, itemsLeft, filter, addTask, clearCompleted, setFilter } = useTasks();
   const isModalOpen = useUIStore(state => state.isModalOpen);
   const message = useMessage();
+  const isMobile = useIsMobile();
+
   const [taskDescription, setTaskDescription] = useState("");
 
 
