@@ -12,6 +12,7 @@ import { useTasks } from "../hooks/useTasks";
 
 export const TaskPage = () => {
 
+  console.log('hola');
   
   const { onDragStart, onDragOver, onDrop } = useDrag();
   const { tasks, itemsLeft, filter, addTask, clearCompleted, setFilter } = useTasks();

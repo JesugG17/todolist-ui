@@ -33,19 +33,23 @@ export const LoginPage = () => {
       try {
         setChecking();
         await login(values.email, values.password);
+        navigate("/task", {
+          replace: true,
+        });
       } catch (error) {
         console.log(error);
       }
     },
   });
 
-  useEffect(() => {
-    if (status === "authorized") {
-      navigate("/task", {
-        replace: true,
-      });
-    }
-  }, [status]);
+  // useEffect(() => {
+  //   if (status === "authorized") {
+  //     console.log('here');
+  //     navigate("/task", {
+  //       replace: true,
+  //     });
+  //   }
+  // }, [status]);
 
   useEffect(() => {
     clearMessage();

@@ -5,6 +5,7 @@ import { useAuthUserStore } from "../store/auth/authUserStore";
 
 export const AppRouter = () => {
   const status = useAuthUserStore((state) => state.status);
+  console.log(status);
   return (
     <Routes>
       {status === "authorized" ? (
