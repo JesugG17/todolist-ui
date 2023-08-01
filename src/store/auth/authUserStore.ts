@@ -41,9 +41,11 @@ export const useAuthUserStore = create<Store>()(
           password,
         });
 
+        console.log(data);
+
         if (data.code === 200) {
           const photo = data.data.user.photo ?? "/img/user.png";
-          toast.success("Login successfully");
+          toast.success(data.message);
           localStorage.setItem("token", data.data.token);
           set({
             status: "authorized",
@@ -53,6 +55,7 @@ export const useAuthUserStore = create<Store>()(
         }
 
         if (data.code >= 400) {
+          toast.error(data.message);
           set({ checking: false, message: data.message });
           throw new Error("An error has ocurred while login");
         }
@@ -69,6 +72,7 @@ export const useAuthUserStore = create<Store>()(
         }
 
         if (data.code >= 400) {
+          toast.error(data.message);
           set({ checking: false, message: data.message });
           throw new Error("An error has ocurred while registering");
         }
@@ -84,6 +88,7 @@ export const useAuthUserStore = create<Store>()(
         });
 
         if (data.code === 200) {
+          toast.success(data.message);
           localStorage.setItem("token", data.data.token);
           set({
             status: "authorized",
@@ -94,6 +99,7 @@ export const useAuthUserStore = create<Store>()(
 
         if (data.code >= 400) {
           set({ checking: false });
+          toast.error(data.message);
           throw new Error("An error has ocurred while login");
         }
       },

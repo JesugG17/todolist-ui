@@ -14,7 +14,6 @@ export const LoginPage = () => {
   const { login, 
           setChecking,  
           clearMessage, 
-          status,
           checking, 
           message 
   } = useAuthUserStore();
@@ -41,15 +40,6 @@ export const LoginPage = () => {
       }
     },
   });
-
-  // useEffect(() => {
-  //   if (status === "authorized") {
-  //     console.log('here');
-  //     navigate("/task", {
-  //       replace: true,
-  //     });
-  //   }
-  // }, [status]);
 
   useEffect(() => {
     clearMessage();
