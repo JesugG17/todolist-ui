@@ -50,7 +50,7 @@ export const validateResetPasswordForm = (values: Values) => {
 
     if (!email) {
         errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)  && email.length >= 10) {
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
         errors.email = 'Invalid email address';
     }
 
@@ -66,13 +66,5 @@ export const validateResetPasswordForm = (values: Values) => {
         errors.confirmPassword = 'Must be atleast 6 characters';
     }
 
-    
-    if (
-        password.length > 0 && confirmPassword.length > 0 && password !== confirmPassword
-    ) {
-        errors.confirmPassword = 'Both password must be the same!'
-    }
-
-    console.log(errors);
     return errors;
 }
