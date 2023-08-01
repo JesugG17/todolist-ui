@@ -17,7 +17,7 @@ export const useGoogle = () => {
                     replace: true
                 });
             } catch (error) {
-                console.log('Error while login with google');
+                setChecking(false);
             }
         },
         onError: ()  => toast.error('Login failed'),

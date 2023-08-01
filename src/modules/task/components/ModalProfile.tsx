@@ -4,7 +4,7 @@ import { useUIStore } from "../../../store/ui/uiStore";
 import { CancelUpdateIcon, Cross, UpdateIcon, UploadPhoto } from "../../ui/Icons";
 import { handleDeleteUser } from "../utils/display-alert-message";
 
-export const ModalInfo = () => {
+export const ModalProfile = () => {
   const { user, updateProfilePhoto, setChecking, checking, deleteProfile, updateUserName } = useAuthUserStore();
   const { closeModal } = useUIStore();
   const uploadPhotoInputRef = useRef<HTMLInputElement>(null);

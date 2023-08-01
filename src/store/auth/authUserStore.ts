@@ -41,24 +41,23 @@ export const useAuthUserStore = create<Store>()(
           password,
         });
 
-        console.log(data);
-
-        if (data.code === 200) {
-          const photo = data.data.user.photo ?? "/img/user.png";
-          toast.success(data.message);
-          localStorage.setItem("token", data.data.token);
-          set({
-            status: "authorized",
-            user: { ...data.data.user, photo },
-            checking: false,
-          });
+        if (data.code >= 400)  {
+          if (data.code >= 400) {
+            console.log('hola');
+            set({ checking: false, message: data.message });
+            throw new Error("An error has ocurred while login");
+          }
         }
 
-        if (data.code >= 400) {
-          toast.error(data.message);
-          set({ checking: false, message: data.message });
-          throw new Error("An error has ocurred while login");
-        }
+        const photo = data.data.user.photo ?? "/img/user.png";
+        toast.success(data.message);
+        localStorage.setItem("token", data.data.token);
+        set({
+          status: "authorized",
+          user: { ...data.data.user, photo },
+          checking: false,
+        });
+
       },
       register: async (userName: string, email: string, password: string) => {
         const { data } = await authApi.post<AuthResponse>("/register", {
@@ -67,16 +66,12 @@ export const useAuthUserStore = create<Store>()(
           password,
         });
 
-        if (data.code === 201) {
-          toast.success(data.message);
-        }
-
         if (data.code >= 400) {
-          toast.error(data.message);
           set({ checking: false, message: data.message });
           throw new Error("An error has ocurred while registering");
         }
 
+        toast.success(data.message);
         set({
           checking: false,
           message: data.message,
@@ -86,22 +81,21 @@ export const useAuthUserStore = create<Store>()(
         const { data } = await authApi.post<AuthResponse>("/google", {
           code,
         });
-
-        if (data.code === 200) {
-          toast.success(data.message);
-          localStorage.setItem("token", data.data.token);
-          set({
-            status: "authorized",
-            user: data.data.user,
-            checking: false,
-          });
-        }
-
+        
         if (data.code >= 400) {
           set({ checking: false });
           toast.error(data.message);
           throw new Error("An error has ocurred while login");
         }
+
+        toast.success(data.message);
+        localStorage.setItem("token", data.data.token);
+        set({
+          status: "authorized",
+          user: data.data.user,
+          checking: false,
+        });
+
       },
       logout: () => {
         localStorage.clear();

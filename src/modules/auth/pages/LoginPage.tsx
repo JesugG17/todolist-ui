@@ -21,7 +21,6 @@ export const LoginPage = () => {
   const googleSignIn = useGoogle();
   const navigate = useNavigate();
 
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -36,7 +35,7 @@ export const LoginPage = () => {
           replace: true,
         });
       } catch (error) {
-        console.log(error);
+        setChecking(false);
       }
     },
   });

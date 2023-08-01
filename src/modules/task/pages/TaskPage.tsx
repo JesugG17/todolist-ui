@@ -1,7 +1,7 @@
 import { useIsMobile } from "../hooks/useIsMobile";
 import { useDrag } from "../hooks/useDrag";
 import { Navbar } from "../components/Navbar";
-import { ModalInfo } from "../components/ModalProfile";
+import { ModalProfile } from "../components/ModalProfile";
 import { useState } from "react";
 import { TaskItem } from "../components/TaskItem";
 import { handleDeleteTask } from "../utils/display-alert-message";
@@ -11,8 +11,6 @@ import { useUIStore } from "../../../store/ui/uiStore";
 import { useTasks } from "../hooks/useTasks";
 
 export const TaskPage = () => {
-
-  console.log('hola');
   
   const { onDragStart, onDragOver, onDrop } = useDrag();
   const { tasks, itemsLeft, filter, addTask, clearCompleted, setFilter } = useTasks();
@@ -22,13 +20,12 @@ export const TaskPage = () => {
 
   const [taskDescription, setTaskDescription] = useState("");
 
-
   return (
     <div className="w-full h-screen bg-background flex flex-col">
       <Navbar />
       {
         isModalOpen &&
-        (<ModalInfo />)
+        (<ModalProfile />)
       }
       <header className="md:h-1/4">
         <img
