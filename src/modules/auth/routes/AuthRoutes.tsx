@@ -10,6 +10,9 @@ export const AuthRoutes = () => {
         <Route path="/login" element={ <LoginPage />}/>
         <Route path="/register" element={ <RegisterPage /> } />
         <Route path="/reset-password" element={ <ResetPasswordPage /> }/>
+        <Route path="/reset-password/verify"/>
+        {/* Route for reset password verification */}
+        <Route path="/reset-password/:id" />
         <Route path="/*" element={ <Navigate to='/auth/login' />} />
     </Routes>
   )

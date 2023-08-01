@@ -4,18 +4,15 @@ import { TaskPage } from "../modules/task/pages/TaskPage";
 import { useAuthUserStore } from "../store/auth/authUserStore";
 
 export const AppRouter = () => {
-  
-  const status = useAuthUserStore(state => state.status);
+  const status = useAuthUserStore((state) => state.status);
   return (
     <Routes>
-            <Route path="/auth/*" element={ <AuthRoutes /> }/>
-            {
-              status === 'authorized' &&
-              (
-                <Route path="/task" element={ <TaskPage /> } />
-              )
-            }
-        <Route path="/*" element={ <Navigate to='/auth/login' />} />
+      {status === "authorized" ? (
+        <Route path="/task" element={<TaskPage />} />
+      ) : (
+        <Route path="/auth/*" element={<AuthRoutes />} />
+      )}
+      <Route path="/*" element={<Navigate to="/auth/login" />} />
     </Routes>
-  )
-}
+  );
+};
