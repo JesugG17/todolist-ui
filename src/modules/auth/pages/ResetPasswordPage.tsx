@@ -15,9 +15,9 @@ export const ResetPasswordPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "jesus@gmail.com",
-      password: "Hachiko11",
-      confirmPassword: "Hachiko11"
+      email: "",
+      password: "",
+      confirmPassword: ""
     },
     validate: validateResetPasswordForm,
     onSubmit: async(values) => {
