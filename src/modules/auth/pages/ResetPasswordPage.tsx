@@ -8,11 +8,14 @@ import { toast } from "react-hot-toast";
 import { authApi } from "../../../api/authApi";
 import { AuthResponse } from "../types/authResponse";
 import { Loading } from "../components/Loading";
+import { Info } from "../components/Info";
 
 export const ResetPasswordPage = () => {
 
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
+
+  const disabled = true;
 
   const formik = useFormik({
     initialValues: {
@@ -32,7 +35,11 @@ export const ResetPasswordPage = () => {
         newPassword: values.password
       })
 
-      toast.success(data.message);
+      if (data.code === 200) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
 
       navigate('/auth/login', {
         replace: true
@@ -57,7 +64,7 @@ export const ResetPasswordPage = () => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             placeholder="Example@gmail.com"
-            disabled={formik.isSubmitting}
+            disabled={disabled}
 
           />
             {formik.errors.email && formik.touched.email && (
@@ -78,7 +85,7 @@ export const ResetPasswordPage = () => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             placeholder="Enter password"
-            disabled={formik.isSubmitting}
+            disabled={disabled}
           />
             {formik.errors.password && formik.touched.password && (
             <span className="text-red-400">{formik.errors.password}</span>
@@ -98,7 +105,7 @@ export const ResetPasswordPage = () => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             placeholder="Enter password"
-            disabled={formik.isSubmitting}
+            disabled={disabled}
           />
             {formik.errors.confirmPassword && formik.touched.confirmPassword && (
             <span className="text-red-400">{formik.errors.confirmPassword}</span>
@@ -112,12 +119,12 @@ export const ResetPasswordPage = () => {
         }
         <div className="flex flex-col gap-2">
           <button
-            disabled={formik.isSubmitting} 
+            disabled={disabled} 
             className="bg-violet-500 p-2 rounded text-sm text-white font-medium hover:brightness-105 transition-all duration-200 disabled:opacity-50"
           >
             Change password
           </button>
-          <button disabled={formik.isSubmitting}>
+          <button disabled={disabled}>
             <Link to="/auth/login" className="text-center text-slate-300 text-xs md:text-sm">
               You already know the password?{" "}
               <strong className="text-blue-500 underline hover:brightness-110 transition-all duration-200">
@@ -130,6 +137,10 @@ export const ResetPasswordPage = () => {
       {
         formik.isSubmitting &&
         (<Loading />)
+      }
+
+      {
+        disabled && (<Info />)
       }
     </AuthLayout>
   );

@@ -15,9 +15,9 @@ import { IS_DEVELOPMENT } from './isDevelopment';
   HashRouter give me problems, so I must to switch
   to BrowserRouter again. To "solve" this, I created
   the HOC below, it is development returns BrowserRouter
-  otherwhise HashRouter 
+  otherwhise HashRouter. 
 */
-const Router = ({children}: { children: React.ReactNode}) => {
+const Router = ({children}: {children: React.ReactNode}) => {
   return (
     <>
       {
