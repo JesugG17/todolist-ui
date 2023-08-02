@@ -10,7 +10,7 @@ import { IS_DEVELOPMENT } from './isDevelopment';
 
 
 /* 
-  When app is in production, I have to use HashRouter
+  When app is on production, I have to use HashRouter
   due problems with routes, but in development, use
   HashRouter give me problems, so I must to switch
   to BrowserRouter again. To "solve" this, I created
@@ -36,7 +36,6 @@ const Router = ({children}: { children: React.ReactNode}) => {
     </>
   )
 }
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
