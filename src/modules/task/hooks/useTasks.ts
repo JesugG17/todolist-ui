@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useTasksStore } from "../../../store/task/taskStore";
 import { Filter, TasksProperties } from "../types/filter.interface";
+import { useAuthUserStore } from '../../../store/auth/authUserStore';
 
 export const useTasks = () => {
     const [filter, setFilter] = useState<Filter>({
         all: true
     });
+
+    const { logout } = useAuthUserStore();
+
     const { 
         tasks, 
         initTasks,
@@ -20,7 +24,11 @@ export const useTasks = () => {
     }
 
     useEffect(() => {
-        initTasks();
+        try {
+            initTasks();
+        } catch (error) {
+            logout();
+        }
     }, []);
 
     const filteredTasks = filterTasks(filter);

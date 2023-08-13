@@ -38,6 +38,11 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
             description
         });
 
+        if (data.code === 401)  {
+            toast.error('Session expired');
+            throw new Error('Session expired');
+        }
+
         if (data.code === 201) {
             toast.success(data.message, {position: 'bottom-center'});
             const newTasks = [...tasks, data.data] as Task[];
