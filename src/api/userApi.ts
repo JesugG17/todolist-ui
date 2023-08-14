@@ -6,7 +6,8 @@ const baseURL = IS_DEVELOPMENT
                 : `${import.meta.env.VITE_API_URL}/user`;
 
 export const userApi = axios.create({
-    baseURL
+    baseURL,
+    validateStatus: () => true,
 });
 
 userApi.interceptors.request.use((config) => {

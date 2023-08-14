@@ -7,6 +7,7 @@ import { uploadApi } from "../../api/uploadApi";
 import { UploadResponse } from "../../modules/task/types/uploadResponse";
 import { userApi } from "../../api/userApi";
 import { UserResponse } from "../../modules/task/types/userResponse";
+import { HTTP_CODES } from "../../modules/task/constants/http-codes";
 
 interface State {
   status: string;
@@ -27,7 +28,8 @@ interface Action {
   logout: () => void;
   updateProfilePhoto: (file: File) => Promise<void>;
   deleteProfile: () => Promise<void>
-  updateUserName: (newUserName: string) => Promise<void>; 
+  updateUserName: (newUserName: string) => Promise<void>;
+  extendSession: () => Promise<void>; 
   setChecking: (value?: boolean) => void;
   clearMessage: () => void;
 }
@@ -102,7 +104,7 @@ export const useAuthUserStore = create<State & Action>()(
 
       },
       logout: () => {
-        localStorage.clear();
+        sessionStorage.clear();
         set({
           status: "non-authorized",
           user: {} as User,
@@ -160,8 +162,6 @@ export const useAuthUserStore = create<State & Action>()(
           userName: newUserName
         });
 
-        console.log(data);
-
         if (data.code === 200) {
           toast.success(data.message);
           set({
@@ -175,6 +175,20 @@ export const useAuthUserStore = create<State & Action>()(
         if (data.code >= 400) {
           toast.error(data.message);
         }
+      },
+      extendSession: async() => {
+        const { user } = get();
+        const { data } = await authApi.post<AuthResponse>('/extend-session', {
+          email: user.email
+        });
+
+        console.log(data);
+
+        if (data.code === HTTP_CODES.OK) {
+          sessionStorage.setItem('token', data.data.token);
+        }
+
+
       },
       setChecking: (value: boolean = true) => {
         set({ checking: value });

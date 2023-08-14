@@ -9,11 +9,12 @@ import { Filters } from "../components/Filters";
 import { useMessage } from "../hooks/useMessage";
 import { useUIStore } from "../../../store/ui/uiStore";
 import { useTasks } from "../hooks/useTasks";
+import { ModalExtendSession } from "../components/ModalExtendSession";
 
 export const TaskPage = () => {
   
   const { onDragStart, onDragOver, onDrop } = useDrag();
-  const { tasks, itemsLeft, filter, addTask, clearCompleted, setFilter } = useTasks();
+  const { tasks, itemsLeft, filter, tokenExpired, addTask, clearCompleted, setFilter } = useTasks();
   const isModalOpen = useUIStore(state => state.isModalOpen);
   const message = useMessage();
   const isMobile = useIsMobile();
@@ -26,6 +27,10 @@ export const TaskPage = () => {
       {
         isModalOpen &&
         (<ModalProfile />)
+      }
+      {
+        tokenExpired &&
+        (<ModalExtendSession />)
       }
       <header className="md:h-1/4">
         <img

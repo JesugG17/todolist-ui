@@ -4,10 +4,12 @@ import { TasksReponse } from '../../modules/task/types/taskResponse';
 import { toast } from 'react-hot-toast';
 import { Task } from '../../modules/task/types/task.interface';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { HTTP_CODES } from '../../modules/task/constants/http-codes';
 
 interface State {
     tasks: Task[],
     isLoading: boolean;
+    tokenExpired: boolean;
     itemsLeft: number;
 }
 
@@ -20,18 +22,23 @@ interface Action {
     clearCompleted: () => Promise<void>;
     setTasks: (tasks: Task[]) => void;
     setIsLoading: () => void;
+    toggleTokenExpiredStatus: (status?: boolean) => void;
 }
 
 export const useTasksStore = create<State & Action>()(persist((set, get) => ({
     tasks: [],
     isLoading: false,
+    tokenExpired: false,
     itemsLeft: 0, 
     initTasks: async() => {
+
         const { data } = await taskApi.get<TasksReponse>('/all');
 
-        console.log(data);
+        if (data.code === HTTP_CODES.UNAUTHORIZED) {
+            set({ tokenExpired: true });
+        }
 
-        if (data.code === 200) {
+        if (data.code === HTTP_CODES.OK) {
             const itemsLeft = data.data.filter( task => !task.completed ).length;
             set({ tasks: data.data, isLoading: false, itemsLeft });
         }
@@ -43,17 +50,27 @@ export const useTasksStore = create<State & Action>()(persist((set, get) => ({
             description
         });
 
-        if (data.code === 201) {
+        if (data.code === HTTP_CODES.UNAUTHORIZED) {
+            console.log('hello');
+            set({ tokenExpired: true });
+        }
+
+        if (data.code === HTTP_CODES.CREATED) {
             toast.success(data.message, {position: 'bottom-center'});
             const newTasks = [...tasks, data.data] as Task[];
             set({ tasks: newTasks, itemsLeft: itemsLeft + 1 });
         }
+            
     },
     deleteTask: async(taskId: string) => {
         const { tasks, itemsLeft } = get();
         const { data } = await taskApi.delete<TasksReponse>(`/delete/${taskId}`);
 
-        if (data.code === 200) {
+        if (data.code === HTTP_CODES.UNAUTHORIZED) {
+            set({ tokenExpired: true });
+        }
+
+        if (data.code === HTTP_CODES.OK) {
             toast.success(data.message, {position: 'bottom-center'})
             const newTasks = tasks.filter( task => task.taskid !== taskId );
             set({ tasks: newTasks, itemsLeft: itemsLeft - 1 })
@@ -70,9 +87,16 @@ export const useTasksStore = create<State & Action>()(persist((set, get) => ({
             ...copyTasks[index],
             completed: !copyTasks[index].completed
         };
-        await taskApi.put<TasksReponse>(`/update/${taskId}`,  {
+
+        
+        const { data } = await taskApi.put<TasksReponse>(`/update/${taskId}`,  {
             completed: copyTasks[index].completed 
         });
+        console.log(data);
+        
+        if (data.code === HTTP_CODES.UNAUTHORIZED) {
+            set({ tokenExpired: true });
+        }
 
         set({ tasks: copyTasks });
 
@@ -94,14 +118,18 @@ export const useTasksStore = create<State & Action>()(persist((set, get) => ({
             return task;
         }); 
 
-        if (data.code === 200) {
+        if (data.code === HTTP_CODES.UNAUTHORIZED) {
+            set({ tokenExpired: true });
+        }
+
+        if (data.code === HTTP_CODES.OK) {
             toast.success(data.message);
             set({
                 tasks: newTasks
             })
         }
 
-        if (data.code >= 400) {
+        if (data.code >= HTTP_CODES.BAD_REQUEST) {
             toast.error(data.message);
         }
     },
@@ -119,8 +147,6 @@ export const useTasksStore = create<State & Action>()(persist((set, get) => ({
             data: { tasks: tasksIdsToDelete }
         });
 
-        console.log(data);
-
         const newItemsLeft = itemsLeft - tasksIdsToDelete.length;
 
         if (data.code === 200) {
@@ -137,5 +163,8 @@ export const useTasksStore = create<State & Action>()(persist((set, get) => ({
     },
     setIsLoading: () => {
         set({ isLoading: true });
-    }
+    },
+    toggleTokenExpiredStatus: (status: boolean = false) => {
+        set({ tokenExpired: status });
+    },
 }), {name: 'taskStore', storage: createJSONStorage(() => sessionStorage)}));

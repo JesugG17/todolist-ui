@@ -13,6 +13,8 @@ export const useTasks = () => {
     const { 
         tasks, 
         initTasks,
+        tokenExpired,
+        setTokenExpiredToFalse,
         addTask,
         clearCompleted 
     } = useTasksStore();
@@ -37,6 +39,8 @@ export const useTasks = () => {
         tasks: filteredTasks,
         itemsLeft: filteredTasks.length,
         filter,
+        tokenExpired,
+        setTokenExpiredToFalse,
         addTask,
         clearCompleted,
         setFilter

@@ -10,6 +10,7 @@ export const uploadApi = axios.create({
     headers: {
         'Content-Type': 'multipart/form-data'
     },
+    validateStatus: () => true
 })
 
 uploadApi.interceptors.request.use((config) => {

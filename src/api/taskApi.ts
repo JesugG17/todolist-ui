@@ -6,7 +6,8 @@ const baseURL = IS_DEVELOPMENT
                 : `${import.meta.env.VITE_API_URL}/task`;
 
 export const taskApi = axios.create({
-    baseURL
+    baseURL,
+    validateStatus: () => true,
 });
 
 taskApi.interceptors.request.use((config) => {
