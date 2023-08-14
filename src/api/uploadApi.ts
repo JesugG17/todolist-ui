@@ -13,7 +13,7 @@ export const uploadApi = axios.create({
 })
 
 uploadApi.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     config.headers['x-token'] = token;
 

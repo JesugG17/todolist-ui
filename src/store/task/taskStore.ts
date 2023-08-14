@@ -3,12 +3,15 @@ import { taskApi } from '../../api/taskApi';
 import { TasksReponse } from '../../modules/task/types/taskResponse';
 import { toast } from 'react-hot-toast';
 import { Task } from '../../modules/task/types/task.interface';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
-interface Store {
+interface State {
     tasks: Task[],
     isLoading: boolean;
     itemsLeft: number;
+}
+
+interface Action {
     initTasks: () => Promise<void>;
     addTask: (description: string) => Promise<void>;
     deleteTask: (taskId: string) => Promise<void>;
@@ -19,12 +22,14 @@ interface Store {
     setIsLoading: () => void;
 }
 
-export const useTasksStore = create<Store>()(persist((set, get) => ({
+export const useTasksStore = create<State & Action>()(persist((set, get) => ({
     tasks: [],
     isLoading: false,
     itemsLeft: 0, 
     initTasks: async() => {
         const { data } = await taskApi.get<TasksReponse>('/all');
+
+        console.log(data);
 
         if (data.code === 200) {
             const itemsLeft = data.data.filter( task => !task.completed ).length;
@@ -37,11 +42,6 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
         const { data } = await taskApi.post<TasksReponse>('/create', {
             description
         });
-
-        if (data.code === 401)  {
-            toast.error('Session expired');
-            throw new Error('Session expired');
-        }
 
         if (data.code === 201) {
             toast.success(data.message, {position: 'bottom-center'});
@@ -138,4 +138,4 @@ export const useTasksStore = create<Store>()(persist((set, get) => ({
     setIsLoading: () => {
         set({ isLoading: true });
     }
-}), {name: 'taskStore'}));
+}), {name: 'taskStore', storage: createJSONStorage(() => sessionStorage)}));

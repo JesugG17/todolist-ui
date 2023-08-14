@@ -2,17 +2,21 @@ import { create } from "zustand";
 import { authApi } from "../../api/authApi";
 import { AuthResponse } from "../../modules/auth/types/authResponse";
 import { toast } from "react-hot-toast";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { uploadApi } from "../../api/uploadApi";
 import { UploadResponse } from "../../modules/task/types/uploadResponse";
 import { userApi } from "../../api/userApi";
 import { UserResponse } from "../../modules/task/types/userResponse";
 
-interface Store {
+interface State {
   status: string;
   user: User;
   checking: boolean;
   message: string | null;
+
+}
+
+interface Action {
   login: (email: string, password: string) => Promise<void>;
   register: (
     userName: string,
@@ -28,7 +32,7 @@ interface Store {
   clearMessage: () => void;
 }
 
-export const useAuthUserStore = create<Store>()(
+export const useAuthUserStore = create<State & Action>()(
   persist(
     (set, get) => ({
       status: "non-authorized",
@@ -51,7 +55,7 @@ export const useAuthUserStore = create<Store>()(
 
         const photo = data.data.user.photo ?? "/img/user.png";
         toast.success(data.message);
-        localStorage.setItem("token", data.data.token);
+        sessionStorage.setItem("token", data.data.token);
         set({
           status: "authorized",
           user: { ...data.data.user, photo },
@@ -89,7 +93,7 @@ export const useAuthUserStore = create<Store>()(
         }
 
         toast.success(data.message);
-        localStorage.setItem("token", data.data.token);
+        sessionStorage.setItem("token", data.data.token);
         set({
           status: "authorized",
           user: data.data.user,
@@ -181,6 +185,7 @@ export const useAuthUserStore = create<Store>()(
     }),
     {
       name: "authStore",
+      storage: createJSONStorage(() => sessionStorage)
     }
   )
 );
