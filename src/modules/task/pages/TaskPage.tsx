@@ -1,15 +1,8 @@
-import { useIsMobile } from "../hooks/useIsMobile";
-import { useDrag } from "../hooks/useDrag";
-import { Navbar } from "../components/Navbar";
-import { ModalProfile } from "../components/ModalProfile";
 import { useState } from "react";
-import { TaskItem } from "../components/TaskItem";
+import { useTasks, useMessage, useDrag,useIsMobile } from "../hooks";
+import { Navbar, ModalProfile, TaskItem, Filters, ModalExtendSession } from "../components";
 import { handleDeleteTask } from "../utils/display-alert-message";
-import { Filters } from "../components/Filters";
-import { useMessage } from "../hooks/useMessage";
 import { useUIStore } from "../../../store/ui/uiStore";
-import { useTasks } from "../hooks/useTasks";
-import { ModalExtendSession } from "../components/ModalExtendSession";
 
 export const TaskPage = () => {
   
