@@ -1,13 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Toaster  } from 'react-hot-toast';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Toaster } from 'react-hot-toast';
 
-import './styles/index.css'
-import { BrowserRouter, HashRouter } from 'react-router-dom'
-import { AppRouter } from './router/AppRouter'
+import './styles/index.css';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
+import { AppRouter } from './router/AppRouter';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { IS_DEVELOPMENT } from './isDevelopment';
-
 
 /* 
   When app is on production, I have to use HashRouter
@@ -17,25 +16,17 @@ import { IS_DEVELOPMENT } from './isDevelopment';
   the HOC below, it is development returns BrowserRouter
   otherwhise HashRouter. 
 */
-const Router = ({children}: {children: React.ReactNode}) => {
+const Router = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      {
-        IS_DEVELOPMENT
-        ? (
-          <BrowserRouter>
-            { children }
-          </BrowserRouter>
-        )
-        : (
-          <HashRouter>
-            { children }
-          </HashRouter>
-        )
-      }
+      {IS_DEVELOPMENT ? (
+        <BrowserRouter>{children}</BrowserRouter>
+      ) : (
+        <HashRouter>{children}</HashRouter>
+      )}
     </>
-  )
-}
+  );
+};
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -45,5 +36,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <AppRouter />
       </Router>
     </GoogleOAuthProvider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

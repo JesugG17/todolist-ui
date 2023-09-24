@@ -1,17 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
-import { AuthLayout } from "../layout/AuthLayout";
-import { useFormik } from "formik";
-import { validateResetPasswordForm } from "../utils/validate-forms";
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthLayout } from '../layout/AuthLayout';
+import { useFormik } from 'formik';
+import { validateResetPasswordForm } from '../utils/validate-forms';
 import { useState } from 'react';
-import { ShowError } from "../components/ShowError";
-import { toast } from "react-hot-toast";
-import { authApi } from "../../../api/authApi";
-import { AuthResponse } from "../types/authResponse";
-import { Loading } from "../components/Loading";
-import { Info } from "../components/Info";
+import { ShowError } from '../components/ShowError';
+import { toast } from 'react-hot-toast';
+import { authApi } from '../../../api/authApi';
+import { AuthResponse } from '../types/authResponse';
+import { Loading } from '../components/Loading';
+import { Info } from '../components/Info';
 
 export const ResetPasswordPage = () => {
-
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -19,21 +18,21 @@ export const ResetPasswordPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
-      confirmPassword: ""
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
     validate: validateResetPasswordForm,
-    onSubmit: async(values) => {
-      if (values.password !== values.confirmPassword){
+    onSubmit: async (values) => {
+      if (values.password !== values.confirmPassword) {
         setErrorMessage('Both password must be the same!');
         return;
       }
 
       const { data } = await authApi.post<AuthResponse>('/reset-password', {
         email: values.email,
-        newPassword: values.password
-      })
+        newPassword: values.password,
+      });
 
       if (data.code === 200) {
         toast.success(data.message);
@@ -42,106 +41,98 @@ export const ResetPasswordPage = () => {
       }
 
       navigate('/auth/login', {
-        replace: true
-      })
-    }
-  })
+        replace: true,
+      });
+    },
+  });
 
   return (
-    <AuthLayout title="Reset password">
-      <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
-        <div className="flex flex-col gap-2">
-          <label className="text-violet-400">Email</label>
+    <AuthLayout title='Reset password'>
+      <form
+        onSubmit={formik.handleSubmit}
+        className='flex flex-col gap-5'
+      >
+        <div className='flex flex-col gap-2'>
+          <label className='text-violet-400'>Email</label>
           <input
-            autoComplete="off"
+            autoComplete='off'
             className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${
-              formik.errors.email &&
-              "border-2 border-red-400 focus:outline-red-400"
+              formik.errors.email && 'border-2 border-red-400 focus:outline-red-400'
             }`}
-            type="email"
-            name="email"
+            type='email'
+            name='email'
             value={formik.values.email}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            placeholder="Example@gmail.com"
+            placeholder='Example@gmail.com'
             disabled={disabled}
-
           />
-            {formik.errors.email && formik.touched.email && (
-            <span className="text-red-400">{formik.errors.email}</span>
+          {formik.errors.email && formik.touched.email && (
+            <span className='text-red-400'>{formik.errors.email}</span>
           )}
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-violet-400">New password</label>
+        <div className='flex flex-col gap-2'>
+          <label className='text-violet-400'>New password</label>
           <input
-            autoComplete="off"
+            autoComplete='off'
             className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${
-              formik.errors.password &&
-              "border-2 border-red-400 focus:outline-red-400"
+              formik.errors.password && 'border-2 border-red-400 focus:outline-red-400'
             }`}
-            type="password"
-            name="password"
+            type='password'
+            name='password'
             value={formik.values.password}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            placeholder="Enter password"
+            placeholder='Enter password'
             disabled={disabled}
           />
-            {formik.errors.password && formik.touched.password && (
-            <span className="text-red-400">{formik.errors.password}</span>
+          {formik.errors.password && formik.touched.password && (
+            <span className='text-red-400'>{formik.errors.password}</span>
           )}
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-violet-400">Confirm password</label>
+        <div className='flex flex-col gap-2'>
+          <label className='text-violet-400'>Confirm password</label>
           <input
-            autoComplete="off"
+            autoComplete='off'
             className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${
-              formik.errors.confirmPassword &&
-              "border-2 border-red-400 focus:outline-red-400"
+              formik.errors.confirmPassword && 'border-2 border-red-400 focus:outline-red-400'
             }`}
-            type="password"
-            name="confirmPassword"
+            type='password'
+            name='confirmPassword'
             value={formik.values.confirmPassword}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            placeholder="Enter password"
+            placeholder='Enter password'
             disabled={disabled}
           />
-            {formik.errors.confirmPassword && formik.touched.confirmPassword && (
-            <span className="text-red-400">{formik.errors.confirmPassword}</span>
+          {formik.errors.confirmPassword && formik.touched.confirmPassword && (
+            <span className='text-red-400'>{formik.errors.confirmPassword}</span>
           )}
         </div>
-        {
-          errorMessage.length > 0 &&
-          (
-            <ShowError error={errorMessage} />
-          )
-        }
-        <div className="flex flex-col gap-2">
+        {errorMessage.length > 0 && <ShowError error={errorMessage} />}
+        <div className='flex flex-col gap-2'>
           <button
-            disabled={disabled} 
-            className="bg-violet-500 p-2 rounded text-sm text-white font-medium hover:brightness-105 transition-all duration-200 disabled:opacity-50"
+            disabled={disabled}
+            className='bg-violet-500 p-2 rounded text-sm text-white font-medium hover:brightness-105 transition-all duration-200 disabled:opacity-50'
           >
             Change password
           </button>
           <button disabled={disabled}>
-            <Link to="/auth/login" className="text-center text-slate-300 text-xs md:text-sm">
-              You already know the password?{" "}
-              <strong className="text-blue-500 underline hover:brightness-110 transition-all duration-200">
+            <Link
+              to='/auth/login'
+              className='text-center text-slate-300 text-xs md:text-sm'
+            >
+              You already know the password?{' '}
+              <strong className='text-blue-500 underline hover:brightness-110 transition-all duration-200'>
                 Sign in!
               </strong>
             </Link>
           </button>
         </div>
       </form>
-      {
-        formik.isSubmitting &&
-        (<Loading />)
-      }
+      {formik.isSubmitting && <Loading />}
 
-      {
-        disabled && (<Info />)
-      }
+      {disabled && <Info />}
     </AuthLayout>
   );
 };

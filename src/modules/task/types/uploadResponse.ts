@@ -1,5 +1,5 @@
-export interface UploadResponse{
-    data: string;
-    message: string;
-    code: number;
+export interface UploadResponse {
+  data: string;
+  message: string;
+  code: number;
 }

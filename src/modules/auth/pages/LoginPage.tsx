@@ -1,37 +1,32 @@
-import { useId, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Google } from "../../ui/Icons";
-import { AuthLayout } from "../layout/AuthLayout";
-import { useAuthUserStore } from "../../../store/auth/authUserStore";
-import { useGoogle } from "../hooks/useGoogle";
-import { useFormik } from "formik";
-import { validateLoginForm } from "../utils/validate-forms";
-import { ShowError } from "../components/ShowError";
+import { useId, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Google } from '../../ui/Icons';
+import { AuthLayout } from '../layout/AuthLayout';
+import { useAuthUserStore } from '../../../store/auth/authUserStore';
+import { useGoogle } from '../hooks/useGoogle';
+import { useFormik } from 'formik';
+import { validateLoginForm } from '../utils/validate-forms';
+import { ShowError } from '../components/ShowError';
 
 export const LoginPage = () => {
   const emailInputId = useId();
   const passwordInputId = useId();
-  const { login, 
-          setChecking,  
-          clearMessage, 
-          checking, 
-          message 
-  } = useAuthUserStore();
+  const { login, setChecking, clearMessage, checking, message } = useAuthUserStore();
 
   const googleSignIn = useGoogle();
   const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validate: validateLoginForm,
     onSubmit: async (values) => {
       try {
         setChecking();
         await login(values.email, values.password);
-        navigate("/task", {
+        navigate('/task', {
           replace: true,
         });
       } catch (error) {
@@ -45,35 +40,37 @@ export const LoginPage = () => {
   }, [formik.values]);
 
   return (
-    <AuthLayout title="Sign In">
-      <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
-        <div className="text-violet-400 flex flex-col gap-2">
+    <AuthLayout title='Sign In'>
+      <form
+        onSubmit={formik.handleSubmit}
+        className='flex flex-col gap-5'
+      >
+        <div className='text-violet-400 flex flex-col gap-2'>
           <label htmlFor={emailInputId}>Email</label>
           <input
             id={emailInputId}
-            autoComplete="off"
+            autoComplete='off'
             disabled={checking}
             className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${
-              formik.errors.email &&
-              "border-2 border-red-400 focus:outline-red-400"
+              formik.errors.email && 'border-2 border-red-400 focus:outline-red-400'
             }`}
-            placeholder="example@gmail.com"
-            type="email"
-            name="email"
+            placeholder='example@gmail.com'
+            type='email'
+            name='email'
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
           {formik.errors.email && formik.touched.email && (
-            <span className="text-red-400">{formik.errors.email}</span>
+            <span className='text-red-400'>{formik.errors.email}</span>
           )}
         </div>
-        <div className="text-violet-400 flex flex-col gap-2">
-          <div className="flex justify-between">
+        <div className='text-violet-400 flex flex-col gap-2'>
+          <div className='flex justify-between'>
             <label htmlFor={passwordInputId}>Password</label>
             <Link
-              to='/auth/reset-password' 
-              className="text-blue-600 underline hover:brightness-125 transition-all duration-200"
+              to='/auth/reset-password'
+              className='text-blue-600 underline hover:brightness-125 transition-all duration-200'
             >
               Reset password
             </Link>
@@ -82,26 +79,25 @@ export const LoginPage = () => {
             id={passwordInputId}
             disabled={checking}
             className={`bg-primary p-2 text-sm rounded text-white disabled:opacity-40 ${
-              formik.errors.password &&
-              "border-2 border-red-400 focus:outline-red-400"
+              formik.errors.password && 'border-2 border-red-400 focus:outline-red-400'
             } `}
-            placeholder="Enter password"
-            type="password"
-            name="password"
+            placeholder='Enter password'
+            type='password'
+            name='password'
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
           {formik.errors.password && formik.touched.password && (
-            <span className="text-red-400">{formik.errors.password}</span>
+            <span className='text-red-400'>{formik.errors.password}</span>
           )}
         </div>
         {message && <ShowError error={message} />}
         <button
-          type="submit"
+          type='submit'
           onClick={() => formik.handleSubmit()}
           disabled={checking}
-          className="bg-violet-500 p-2 rounded text-white font-medium hover:brightness-105 transition-all duration-200 shadow-sm shadow-violet-400 disabled:pointer-events-none disabled:opacity-40"
+          className='bg-violet-500 p-2 rounded text-white font-medium hover:brightness-105 transition-all duration-200 shadow-sm shadow-violet-400 disabled:pointer-events-none disabled:opacity-40'
         >
           Sign in
         </button>
@@ -115,14 +111,17 @@ export const LoginPage = () => {
             setChecking();
             googleSignIn();
           }}
-          className="bg-slate-100 p-1 font-medium rounded flex gap-2 items-center justify-center hover:bg-white transition-all duration-200 disabled:pointer-events-none disabled:opacity-40"
+          className='bg-slate-100 p-1 font-medium rounded flex gap-2 items-center justify-center hover:bg-white transition-all duration-200 disabled:pointer-events-none disabled:opacity-40'
         >
           <Google />
           Google
         </button>
-        <div className="text-slate-300 text-center text-xs flex flex-col gap-1 md:flex-row justify-center md:text-sm">
+        <div className='text-slate-300 text-center text-xs flex flex-col gap-1 md:flex-row justify-center md:text-sm'>
           <p>You don't have an account?</p>
-          <Link className="text-blue-500 font-medium" to="/auth/register">
+          <Link
+            className='text-blue-500 font-medium'
+            to='/auth/register'
+          >
             Sign up!
           </Link>
         </div>
