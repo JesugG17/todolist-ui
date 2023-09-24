@@ -51,7 +51,6 @@ export const useTasksStore = create<State & Action>()(persist((set, get) => ({
         });
 
         if (data.code === HTTP_CODES.UNAUTHORIZED) {
-            console.log('hello');
             set({ tokenExpired: true });
         }
 
@@ -79,7 +78,6 @@ export const useTasksStore = create<State & Action>()(persist((set, get) => ({
     },
     toggleTask: async(taskId: string)  => {
         const { tasks } = get();
-        console.log(taskId);
 
         const copyTasks = [...tasks];
         const index = copyTasks.findIndex( task => task.taskid === taskId );
@@ -92,7 +90,6 @@ export const useTasksStore = create<State & Action>()(persist((set, get) => ({
         const { data } = await taskApi.put<TasksReponse>(`/update/${taskId}`,  {
             completed: copyTasks[index].completed 
         });
-        console.log(data);
         
         if (data.code === HTTP_CODES.UNAUTHORIZED) {
             set({ tokenExpired: true });

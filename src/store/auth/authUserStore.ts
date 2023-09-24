@@ -48,11 +48,8 @@ export const useAuthUserStore = create<State & Action>()(
         });
 
         if (data.code >= 400)  {
-          if (data.code >= 400) {
-            console.log('hola');
             set({ checking: false, message: data.message });
             throw new Error("An error has ocurred while login");
-          }
         }
 
         const photo = data.data.user.photo ?? "/img/user.png";
@@ -182,7 +179,6 @@ export const useAuthUserStore = create<State & Action>()(
           email: user.email
         });
 
-        console.log(data);
 
         if (data.code === HTTP_CODES.OK) {
           sessionStorage.setItem('token', data.data.token);
