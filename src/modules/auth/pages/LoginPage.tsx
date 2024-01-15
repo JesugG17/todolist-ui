@@ -18,8 +18,8 @@ export const LoginPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: 'example@gmail.com',
+      password: '123456',
     },
     validate: validateLoginForm,
     onSubmit: async (values) => {
